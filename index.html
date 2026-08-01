@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Protocolo">
+<meta name="theme-color" content="#0f6e4f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Protocolo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{color-scheme:light;--bg:#f6f6f4;--card:#fff;--ink:#191918;--mut:#6d6d67;--line:#e4e4e0;--acc:#0f6e4f;--acc2:#e7f3ee;--warn:#a45309;--warnbg:#fdf3d7;--bad:#b02020;--badbg:#fde8e8;--blue:#1d4ed8;--bluebg:#e6ebfd;--pad:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;padding-bottom:calc(72px + var(--pad))}
+.top{position:sticky;top:0;z-index:20;background:var(--acc);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 12px}
+.top h1{font-size:17px;margin:0;font-weight:700;letter-spacing:-.01em}
+.top p{margin:2px 0 0;font-size:12px;opacity:.85}
+.wrap{max-width:820px;margin:0 auto;padding:14px}
+h2{font-size:15px;margin:0 0 10px;font-weight:700}
+h3{font-size:11px;margin:14px 0 6px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
+.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1;min-width:132px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(min-width:600px){.g4{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.kpi .v{font-size:21px;font-weight:700;line-height:1.15;letter-spacing:-.02em}
+.kpi .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;font-weight:600}
+.kpi .s{font-size:11px;color:var(--mut);margin-top:2px}
+button.b{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+button.b:active{background:#eee}
+button.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+button.sm{padding:7px 11px;font-size:13px;border-radius:8px}
+button.w100{width:100%}
+input,select,textarea{border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit;font-size:16px;background:#fff;width:100%;color:var(--ink)}
+label{font-size:11px;color:var(--mut);display:block;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 7px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:700}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;vertical-align:middle}
+.pill.ok{background:var(--acc2);color:var(--acc)}.pill.no{background:var(--badbg);color:var(--bad)}
+.pill.w{background:var(--warnbg);color:var(--warn)}.pill.b{background:var(--bluebg);color:var(--blue)}
+.sess{border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:9px;background:#fff}
+.sess.done{background:var(--acc2);border-color:#bfdccf}.sess.skip{background:#faf9f7;opacity:.7}
+.sess .t{font-weight:700;font-size:14px}.sess .d{font-size:13px;color:var(--mut);margin:5px 0 10px}
+.acts{display:flex;gap:7px}.acts button{flex:1}
+.bar{height:9px;background:var(--line);border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:6px;transition:width .3s}
+.note{background:var(--bluebg);border-left:3px solid var(--blue);padding:11px 13px;border-radius:0 10px 10px 0;font-size:13px;margin:10px 0}
+.note.w{background:var(--warnbg);border-color:var(--warn)}.note.g{background:var(--acc2);border-color:var(--acc)}
+.note.r{background:var(--badbg);border-color:var(--bad)}
+.chartbox{height:210px;position:relative}
+.hide{display:none!important}
+.mini{font-size:12px;color:var(--mut);line-height:1.45}
+ul{margin:6px 0;padding-left:19px}li{margin:4px 0;font-size:13px}
+.res{max-height:250px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.res .fi{padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.res .fi:active{background:var(--acc2)}
+.macrobar{display:flex;height:20px;border-radius:7px;overflow:hidden;margin:9px 0;background:var(--line)}
+.macrobar>span{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding-bottom:var(--pad)}
+.nav button{flex:1;border:0;background:none;padding:9px 2px 8px;font:inherit;font-size:10px;font-weight:600;color:var(--mut);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav button.on{color:var(--acc)}
+.nav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
+.chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fotos figure{margin:0;position:relative}
+.fotos img{width:100%;border-radius:10px;display:block;aspect-ratio:3/4;object-fit:cover}
+.fotos figcaption{font-size:10px;color:var(--mut);text-align:center;margin-top:3px}
+.fotos button{position:absolute;top:4px;right:4px;border:0;background:rgba(0,0,0,.55);color:#fff;border-radius:50%;width:22px;height:22px;font-size:13px;cursor:pointer;line-height:1}
+details{border:1px solid var(--line);border-radius:10px;padding:11px;margin-bottom:9px;background:#fff}
+summary{font-weight:700;font-size:14px;cursor:pointer}
+.stack>*+*{margin-top:9px}
+</style>
+</head>
+<body>
+<div class="top"><h1 id="hdr-t">Protocolo</h1><p id="hdr-s">carregando…</p></div>
+<div class="wrap">
+
+<!-- ============ HOJE ============ -->
+<section id="p-hoje">
+  <div class="g4" style="margin-bottom:12px">
+    <div class="kpi"><div class="v" id="k-sem">–</div><div class="l">Semana corrida</div></div>
+    <div class="kpi"><div class="v" id="k-ader">–</div><div class="l">Microciclo</div></div>
+    <div class="kpi"><div class="v" id="k-peso">–</div><div class="s" id="k-peso-s"></div><div class="l">Tendência</div></div>
+    <div class="kpi"><div class="v" id="k-kcal">–</div><div class="s" id="k-kcal-s"></div><div class="l">Kcal hoje</div></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="align-items:center;margin-bottom:10px">
+      <h2 style="margin:0;flex:2">Microciclo <span class="pill b" id="mc-dia"></span></h2>
+      <button class="b sm" style="flex:0;min-width:auto" onclick="fecharMicro(1)">Fechar</button>
+    </div>
+    <p class="mini" id="mc-info"></p>
+    <div id="mc-alerta"></div>
+    <div id="sessoes"></div>
+  </div>
+
+  <div class="card">
+    <h2>Registro rápido do dia</h2>
+    <div class="g2">
+      <div><label>Sono (h)</label><input id="q-sono" type="number" step="0.5" inputmode="decimal" placeholder="7" onchange="setSono(this.value)"></div>
+      <div><label>Plantão hoje?</label><button class="b w100" id="q-plant" onclick="togglePlantao()">Marcar plantão</button></div>
+    </div>
+    <div id="q-msg"></div>
+  </div>
+
+  <div class="card" id="box-pratos-h">
+    <h2 id="prox-tit">Próxima refeição</h2>
+    <div id="prox-ref"></div>
+    <h3>Meus pratos salvos</h3>
+    <div id="pratos-h"></div>
+  </div>
+
+  <div class="card">
+    <h2>Regras que valem mais que a planilha</h2>
+    <ul>
+      <li><b>Pós-plantão de 24 h não se corre.</b> Restrição de sono piora controle motor e tempo de reação — é quando entorse e queda acontecem. Caminhada de 40 min conta como bônus.</li>
+      <li><b>Nunca dois dias seguidos de corrida</b> antes da semana 9. Osso e tendão adaptam mais devagar que o sistema cardiorrespiratório.</li>
+      <li><b>Trote leve = teste da fala.</b> Se não consegue dizer uma frase inteira, está rápido demais.</li>
+      <li><b>Dor articular que piora ao longo da corrida = para.</b> Dor muscular difusa que melhora aquecendo, segue.</li>
+      <li><b>Perdeu sessão? Marque.</b> O plano recalcula sozinho. Não compense dobrando volume — é o caminho mais curto para lesão.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PLANO ============ -->
+<section id="p-plano" class="hide">
+  <div class="chips" id="sub-plano">
+    <button class="chip on" data-s="corrida">Corrida</button>
+    <button class="chip" data-s="forca">Força</button>
+    <button class="chip" data-s="carga">Carga & dor</button>
+  </div>
+
+  <div id="s-corrida">
+    <div class="card">
+      <h2>16 semanas — do zero aos 45 min contínuos</h2>
+      <p class="mini">Você está na <b id="c-atual"></b>. As semanas avançam por <b>aderência</b>, não por calendário.</p>
+      <div style="overflow-x:auto"><table id="tab-c"><thead><tr><th>S</th><th>Sessão A</th><th>Sessão B</th><th class="n">min</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Motor adaptativo</h2>
+      <ul>
+        <li><b>2 de 2 corridas</b> → avança 1 semana.</li>
+        <li><b>1 de 2</b> → repete a mesma semana.</li>
+        <li><b>0 de 2</b> → regride 1 semana. <i>Exceção:</i> se ambas caíram por plantão e você correu nos últimos 10 dias, apenas repete. O app reconhece o plantão de duas formas: pelo motivo que você digitar em “✕ Não deu”, ou pelos dias que você marcou como plantão na aba Hoje.</li>
+        <li><b>Não é preciso marcar o que não fez.</b> Sessão em branco no fechamento = não feita. Marcar serve só para registrar o motivo — e só o motivo “plantão” muda a decisão.</li>
+        <li><b>&gt;14 dias sem correr</b> → regride 2 semanas.</li>
+        <li>Volume semanal nunca sobe mais de ~10%.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Zonas de esforço</h2>
+      <p class="mini">FC máx estimada (Tanaka: 208 − 0,7 × idade) = <b id="fcmax"></b> bpm. O teste da fala é mais confiável que a fórmula.</p>
+      <div style="overflow-x:auto"><table><thead><tr><th>Zona</th><th>FC</th><th>Sensação</th></tr></thead><tbody id="zonas"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="s-forca" class="hide">
+    <div class="note g"><b>Musculação não é acessório.</b> Em déficit sem treino resistido você perde massa magra junto com a gordura. Força + 1,6–2,2 g/kg de proteína é o que preserva o músculo que já existe embaixo dela — e é ele que define o resultado estético.</div>
+    <div class="card"><h2>Treino A — corpo inteiro</h2><div style="overflow-x:auto"><table id="tab-fa"><thead><tr><th>Exercício</th><th class="n">Sér×Reps</th><th class="n">kg</th><th></th></tr></thead><tbody></tbody></table></div></div>
+    <div class="card"><h2>Treino B — corpo inteiro</h2><div style="overflow-x:auto"><table id="tab-fb"><thead><tr><th>Exercício</th><th class="n">Sér×Reps</th><th class="n">kg</th><th></th></tr></thead><tbody></tbody></table></div></div>
+    <div class="card">
+      <h2>Dupla progressão</h2>
+      <ul>
+        <li><b>RIR 1–2:</b> pare quando faltarem 1 a 2 reps para a falha.</li>
+        <li>Atingiu o topo da faixa em <b>todas</b> as séries → sobe carga (+2,5 kg superiores, +5 kg inferiores) e volta ao fundo da faixa.</li>
+        <li>Descanso: 2–3 min multiarticulares, 60–90 s isoladores.</li>
+        <li><b>Versão mínima</b> (plantão/sono ruim): 3 primeiros exercícios, 2 séries. Conta como sessão feita.</li>
+        <li>A cada 8 semanas, uma semana de <b>deload</b>: mesma carga, metade das séries.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="s-carga" class="hide">
+    <div class="card">
+      <h2>Carga interna e risco</h2>
+      <div class="g2">
+        <div class="kpi"><div class="v" id="cg-ag">–</div><div class="l">Carga 7 dias (UA)</div></div>
+        <div class="kpi"><div class="v" id="cg-acwr">–</div><div class="l">Razão aguda/crônica</div></div>
+      </div>
+      <div id="cg-msg"></div>
+      <p class="mini">Carga = sRPE (0–10) × minutos, somada. A razão entre a carga dos últimos 7 dias e a média das últimas 4 semanas é um <b>sinal de alerta heurístico</b>, não uma lei — a literatura sobre ACWR é contestada. Serve para você notar saltos bruscos de volume, que são o padrão clássico antes de lesão por sobrecarga em corredor iniciante.</p>
+    </div>
+    <div class="card">
+      <h2>Registro de dor</h2>
+      <div class="row">
+        <div><label>Região</label><select id="d-reg"><option>Joelho D</option><option>Joelho E</option><option>Canela D</option><option>Canela E</option><option>Tornozelo/pé</option><option>Quadril</option><option>Lombar</option><option>Ombro</option><option>Outro</option></select></div>
+        <div><label>Intensidade 0–10</label><input id="d-niv" type="number" min="0" max="10" inputmode="numeric" placeholder="3"></div>
+        <div style="display:flex;align-items:flex-end"><button class="b p w100" onclick="addDor()">Registrar</button></div>
+      </div>
+      <div id="dor-lista" style="margin-top:12px"></div>
+      <p class="mini"><b>Regra prática:</b> dor ≤3 que não piora durante a corrida e some em 24 h → segue. Dor ≥4, que piora durante o exercício ou persiste &gt;48 h → suspenda a corrida por 5–7 dias, mantenha força sem impacto e reavalie. Dor localizada em ponto ósseo da tíbia que dói ao apoiar = investigue fratura por estresse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMIDA ============ -->
+<section id="p-comida" class="hide">
+  <div class="card" style="padding:13px">
+    <div class="row" style="align-items:center;margin-bottom:8px">
+      <h2 style="margin:0;flex:2" id="f-data"></h2>
+      <button class="b sm" style="flex:0;min-width:auto" onclick="mudaDia(-1)">◀</button>
+      <button class="b sm" style="flex:0;min-width:auto" onclick="mudaDia(1)">▶</button>
+    </div>
+    <div class="g4">
+      <div class="kpi"><div class="v" id="f-kcal">0</div><div class="l">kcal / <span id="f-kcalm"></span></div></div>
+      <div class="kpi"><div class="v" id="f-p">0</div><div class="l">Prot / <span id="f-pm"></span> g</div></div>
+      <div class="kpi"><div class="v" id="f-c">0</div><div class="l">Carb / <span id="f-cm"></span> g</div></div>
+      <div class="kpi"><div class="v" id="f-g">0</div><div class="l">Gord / <span id="f-gm"></span> g</div></div>
+    </div>
+    <div class="bar" style="margin-top:11px"><i id="f-bar" style="width:0%"></i></div>
+    <div class="macrobar" id="f-mb"></div>
+    <p class="mini" id="f-msg"></p>
+  </div>
+
+  <div class="chips" id="sub-comida">
+    <button class="chip on" data-s="cardapio">Cardápio</button>
+    <button class="chip" data-s="diario">Diário</button>
+    <button class="chip" data-s="meus">Meus alimentos</button>
+  </div>
+
+  <!-- ---- CARDÁPIO ---- -->
+  <div id="s-cardapio">
+    <div class="card" style="padding:13px">
+      <div class="chips" style="margin:0 0 10px">
+        <button class="chip on" id="md-normal" onclick="setModo('normal')">Dia normal</button>
+        <button class="chip" id="md-plantao" onclick="setModo('plantao')">Dia de plantão</button>
+      </div>
+      <button class="b p w100" onclick="registrarDiaTodo()">Registrar o dia inteiro (opção A)</button>
+      <p class="mini" style="margin-top:8px">Um toque monta o dia inteiro dentro da meta. Depois é só ajustar o que fugiu do plano.</p>
+    </div>
+    <div id="cardapio"></div>
+  </div>
+
+  <!-- ---- DIÁRIO ---- -->
+  <div id="s-diario" class="hide">
+    <div class="card">
+      <h2>Registro do dia</h2>
+      <div style="overflow-x:auto"><table id="tab-f"><thead><tr><th>Ref</th><th>Alimento</th><th class="n">kcal</th><th class="n">P</th><th></th></tr></thead><tbody></tbody></table></div>
+      <p class="mini" id="f-vazio"></p>
+      <button class="b sm w100" style="margin-top:9px" onclick="limparDia()">Limpar o dia</button>
+    </div>
+    <div class="card">
+      <h2>Meus pratos salvos</h2>
+      <div id="pratos-c"></div>
+      <button class="b sm w100" style="margin-top:8px" onclick="salvarPratoDia()">Salvar o dia inteiro como prato</button>
+    </div>
+    <div class="card">
+      <h2>Buscar na tabela geral</h2>
+      <input id="busca" placeholder="frango, arroz, cerveja, pizza…" oninput="buscar()" autocomplete="off">
+      <div class="res hide" id="res"></div>
+      <div id="addbox" class="hide" style="margin-top:11px">
+        <div class="row">
+          <div style="flex:2"><label>Alimento</label><input id="a-nome" readonly></div>
+          <div><label>× porção</label><input id="a-qtd" type="number" step="0.25" inputmode="decimal" value="1" oninput="prevMac()"></div>
+          <div><label>Refeição</label><select id="a-ref"><option>Café</option><option>Almoço</option><option>Lanche</option><option>Jantar</option><option>Ceia</option><option>Plantão</option></select></div>
+        </div>
+        <p class="mini" id="a-prev" style="margin:9px 0"></p>
+        <div class="acts"><button class="b p" onclick="addFood()">Adicionar</button><button class="b" onclick="cancelAdd()">Cancelar</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- MEUS ALIMENTOS ---- -->
+  <div id="s-meus" class="hide">
+    <div class="card" style="padding:13px">
+      <h2>O que você come de verdade</h2>
+      <p class="mini">Toque na porção para registrar direto. As marmitas Liv Up mudam de cardápio — se a sua for diferente, edite (✎) e digite o que está no rótulo.</p>
+    </div>
+    <div id="meus-lista"></div>
+    <div class="card">
+      <h2 id="me-tit">Novo alimento</h2>
+      <div class="g2">
+        <div style="grid-column:1/-1"><label>Nome</label><input id="me-nome" placeholder="Marmita Liv Up — strogonoff"></div>
+        <div><label>Porção (rótulo)</label><input id="me-por" placeholder="1 un 300 g"></div>
+        <div><label>kcal</label><input id="me-kcal" type="number" inputmode="decimal"></div>
+        <div><label>Proteína (g)</label><input id="me-p" type="number" step="0.1" inputmode="decimal"></div>
+        <div><label>Carbo (g)</label><input id="me-c" type="number" step="0.1" inputmode="decimal"></div>
+        <div><label>Gordura (g)</label><input id="me-g" type="number" step="0.1" inputmode="decimal"></div>
+        <div><label>Porções rápidas</label><input id="me-qt" placeholder="0.5, 1, 2"></div>
+      </div>
+      <div class="acts" style="margin-top:10px"><button class="b p" onclick="salvarMeu()">Salvar</button><button class="b" onclick="limparEditor()">Limpar</button></div>
+      <p class="mini" style="margin-top:8px">Dica: a tabela do rótulo costuma vir por 100 g. Marmita Liv Up = 300 g, então multiplique por 3.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>As cinco regras</h2>
+    <ul>
+      <li><b>Proteína é a única meta inegociável.</b> Bateu <span id="e-prot"></span> g e errou o resto? Dia bom. ~40 g por refeição — é a dose que satura a síntese proteica muscular de cada refeição.</li>
+      <li><b>Plantão:</b> 2 YoPRO, 1 sachê de whey e castanhas na mochila, sempre. Comida de plantão é a maior fonte isolada de estouro calórico em residente — não é fome, é disponibilidade.</li>
+      <li><b>Álcool conta.</b> 3 chopps ≈ 370 kcal, e o etanol suprime a síntese proteica muscular por horas. Não precisa zerar; precisa aparecer no registro.</li>
+      <li><b>Volume e fibra.</b> Saciedade em déficit é problema de volume gástrico, não de força de vontade. Salada pronta é o item mais barato do plano em kcal por sensação de prato cheio.</li>
+      <li><b>Um dia estourado não anula a semana.</b> O que move o ponteiro é a média de 7 dias — e o app calcula em cima da tendência, não do dia isolado.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CORPO ============ -->
+<section id="p-corpo" class="hide">
+  <div class="card" id="calib-card">
+    <h2>Auto-ajuste calórico</h2>
+    <div id="calib-out"></div>
+  </div>
+
+  <div class="card">
+    <h2>Peso</h2>
+    <div class="row">
+      <div><label>kg</label><input id="w-kg" type="number" step="0.1" inputmode="decimal" placeholder="90.0"></div>
+      <div><label>Data</label><input id="w-dt" type="date"></div>
+      <div style="display:flex;align-items:flex-end"><button class="b p w100" onclick="addPeso()">Salvar</button></div>
+    </div>
+    <p class="mini">Jejum, após urinar, sem roupa. A linha verde é a <b>média móvel exponencial</b> — é ela que importa. Oscilação diária de 1–2 kg é água, glicogênio e conteúdo intestinal.</p>
+    <div class="chartbox" style="margin-top:10px"><canvas id="ch-peso"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>Cintura</h2>
+    <div class="row">
+      <div><label>cm (na cicatriz umbilical)</label><input id="ci-cm" type="number" step="0.5" inputmode="decimal" placeholder="98"></div>
+      <div style="display:flex;align-items:flex-end"><button class="b p w100" onclick="addCintura()">Salvar</button></div>
+    </div>
+    <div id="ci-out"></div>
+    <p class="mini">Razão cintura/estatura &lt;0,5 é o alvo — para 1,85 m isso significa <b>&lt;92,5 cm</b>. Em fases de recomposição o peso trava e a cintura continua caindo; é o marcador mais honesto de gordura visceral.</p>
+  </div>
+
+  <div class="card">
+    <h2>Testes de aptidão — a cada 4 semanas</h2>
+    <div class="row">
+      <div><label>Teste</label><select id="t-tipo">
+        <option value="fcrep">FC de repouso (bpm)</option>
+        <option value="cooper">Cooper 12 min (metros)</option>
+        <option value="5k">5 km (minutos)</option>
+        <option value="flex">Flexões máximas (reps)</option>
+      </select></div>
+      <div><label>Valor</label><input id="t-val" type="number" step="0.1" inputmode="decimal"></div>
+      <div style="display:flex;align-items:flex-end"><button class="b p w100" onclick="addTeste()">Salvar</button></div>
+    </div>
+    <div id="t-out" style="margin-top:10px"></div>
+    <p class="mini"><b>FC de repouso</b> medida ao acordar, ainda deitado, é o marcador que responde mais rápido — costuma cair já nas primeiras 4–6 semanas. <b>Cooper:</b> VO₂máx ≈ (distância − 504,9) ÷ 44,73. Só faça a partir da semana 9.</p>
+  </div>
+
+  <div class="card">
+    <h2>Fotos de progresso</h2>
+    <input type="file" accept="image/*" id="fo-in" onchange="addFoto(this)" style="display:none">
+    <button class="b p w100" onclick="document.getElementById('fo-in').click()">Adicionar foto</button>
+    <p class="mini" style="margin-top:8px">Mesma luz, mesmo horário, mesma pose, de manhã em jejum. Uma por mês. As imagens ficam <b>só neste aparelho</b>, comprimidas — nada é enviado a lugar nenhum.</p>
+    <div class="fotos" id="fotos" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card"><h2>Aderência por microciclo</h2><div class="chartbox"><canvas id="ch-ader"></canvas></div></div>
+  <div class="card">
+    <h2>Histórico</h2>
+    <div style="overflow-x:auto"><table id="tab-h"><thead><tr><th>Início</th><th class="n">Sem</th><th class="n">Feitas</th><th>Decisão</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ============ MAIS ============ -->
+<section id="p-mais" class="hide">
+  <div class="card">
+    <h2>Seus dados</h2>
+    <div class="g2">
+      <div><label>Idade</label><input id="c-idade" type="number" inputmode="numeric"></div>
+      <div><label>Altura (cm)</label><input id="c-alt" type="number" inputmode="numeric"></div>
+      <div><label>Peso atual (kg)</label><input id="c-peso" type="number" step="0.1" inputmode="decimal"></div>
+      <div><label>Meta (kg)</label><input id="c-meta" type="number" step="0.1" inputmode="decimal"></div>
+    </div>
+    <div class="stack" style="margin-top:10px">
+      <div><label>Fator de atividade</label><select id="c-fat">
+        <option value="1.3">1,30 — quase parado, plantão sentado</option>
+        <option value="1.4">1,40 — 4 treinos/sem + plantão em pé</option>
+        <option value="1.5">1,50 — treino + rotina muito ativa</option>
+      </select></div>
+      <div><label>Déficit diário (kcal)</label><select id="c-def">
+        <option value="400">400 — conservador, ~0,36 kg/semana</option>
+        <option value="550">550 — moderado, ~0,50 kg/semana</option>
+        <option value="650">650 — agressivo, logo abaixo do teto, ~0,59 kg/semana</option>
+        <option value="800">800 — acima do teto de oxidação de gordura</option>
+      </select></div>
+      <div><label>Proteína (g por kg)</label><select id="c-prot">
+        <option value="1.8">1,8 — piso da faixa eficaz</option>
+        <option value="2.0">2,0 — padrão em déficit</option>
+        <option value="2.2">2,2 — déficit agressivo</option>
+      </select></div>
+      <div id="teto-msg"></div>
+      <button class="b p w100" onclick="salvarConf()">Recalcular</button>
+    </div>
+    <div id="conf-out" style="margin-top:14px"></div>
+  </div>
+
+  <details><summary>Como as metas são calculadas</summary>
+    <ul>
+      <li><b>TMB</b> por Mifflin-St Jeor — a equação preditiva com melhor desempenho validado em adultos: 10×peso + 6,25×altura − 5×idade + 5.</li>
+      <li><b>GET</b> = TMB × fator de atividade. Toda equação preditiva erra 10–15% no indivíduo; por isso existe o auto-ajuste.</li>
+      <li><b>Meta</b> = GET − déficit. O <b>teto do déficit</b> não é arbitrário: existe um limite de quanta energia o tecido adiposo consegue liberar por dia, estimado por Alpert em cerca de 31 kcal por kg de gordura corporal. Com ~22 kg de gordura, isso dá em torno de <b>690 kcal/dia</b>. Déficit acima disso é cada vez mais pago com massa magra, não com gordura — e esse teto <b>cai conforme você emagrece</b>, o que o auto-ajuste acompanha.</li>
+      <li><b>Proteína</b> 1,6–2,2 g/kg é a faixa com melhor suporte para retenção de massa magra em déficit com treino resistido; quanto mais agressivo o déficit, mais perto do topo da faixa.</li>
+      <li><b>Distribuição:</b> ~0,4 g/kg de proteína por refeição, 4–5 vezes ao dia, é o que satura a síntese proteica muscular em cada refeição. Para 90 kg, ~36–40 g por refeição.</li>
+      <li><b>Antes de dormir:</b> 30–40 g de proteína com caseína aumentam modestamente a síntese proteica durante a noite. O YoPRO tem whey + caseína — daí ele aparecer na ceia.</li>
+      <li><b>Gordura</b> 0,7 g/kg como piso para função endócrina; <b>carboidrato</b> recebe o restante para sustentar a corrida.</li>
+      <li><b>Pausa metabólica:</b> após ~10–12 semanas contínuas em déficit, 1–2 semanas em manutenção. O ensaio MATADOR sugere que déficit intermitente atenua a adaptação metabólica e melhora a retenção do resultado.</li>
+    </ul>
+    <p class="mini">Isto é um plano de condicionamento, não prescrição clínica individualizada. Você conhece as ressalvas melhor que eu.</p>
+  </details>
+
+  <details><summary>Backup e sincronização entre aparelhos</summary>
+    <p class="mini">Os dados ficam no armazenamento local <b>deste</b> aparelho. Para levar do celular ao computador (ou vice-versa): exporte aqui, e importe no outro.</p>
+    <div class="stack" style="margin-top:9px">
+      <button class="b w100" onclick="exportar()">Baixar backup (.json)</button>
+      <button class="b w100" onclick="document.getElementById('imp').click()">Importar backup</button>
+      <input type="file" accept=".json" id="imp" onchange="importar(this)" style="display:none">
+      <button class="b w100" onclick="if(confirm('Apagar TUDO e recomeçar?')){localStorage.removeItem(KEY);location.reload()}">Zerar tudo</button>
+    </div>
+    <p class="mini" id="stor" style="margin-top:9px"></p>
+  </details>
+
+  <details><summary>Instalar na tela de início</summary>
+    <p class="mini"><b>iPhone:</b> abra este endereço no Safari → botão Compartilhar → <b>Adicionar à Tela de Início</b>. Ele passa a abrir em tela cheia, sem barra do navegador, e funciona sem internet.<br><br>
+    <b>Android:</b> Chrome → menu ⋮ → <b>Instalar aplicativo</b>.</p>
+  </details>
+</section>
+
+</div>
+
+<nav class="nav" id="nav">
+  <button data-p="hoje" class="on"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>Hoje</button>
+  <button data-p="plano"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Plano</button>
+  <button data-p="comida"><svg viewBox="0 0 24 24"><path d="M3 2v7a3 3 0 003 3 3 3 0 003-3V2M6 2v7M17 2c-1.5 2-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-3-.5-5-2-7zM6 12v10M17 12v10"/></svg>Comida</button>
+  <button data-p="corpo"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5"/><path d="M3 21h18"/></svg>Corpo</button>
+  <button data-p="mais"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.7 1.7 0 007.9 19a1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H2a2 2 0 110-4h.1A1.7 1.7 0 004.6 8a1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V2a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H22a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>Mais</button>
+</nav>
+
+<script>
+"use strict";
+const KEY='protocolo_jz_v2';
+const hoje=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const dias=(a,b)=>Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+const addD=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+const br=d=>d?d.slice(8,10)+'/'+d.slice(5,7):'—';
+const $=id=>document.getElementById(id);
+const KCAL_KG=7700; // densidade energética aproximada do tecido adiposo
+
+/* ---------- PLANO DE CORRIDA ---------- */
+const CORRIDA=[
+ {s:1,f:'Base 1',a:'5 min caminhada rápida + 8× (1 min trote / 2 min caminhada) + 5 min caminhada',b:'=A',m:34},
+ {s:2,f:'Base 1',a:'5 min caminhada + 7× (1,5 min trote / 2 min caminhada) + 5 min',b:'=A',m:35},
+ {s:3,f:'Base 1',a:'5 min caminhada + 6× (2 min trote / 2 min caminhada) + 5 min',b:'=A',m:34},
+ {s:4,f:'Base 1',a:'5 min caminhada + 5× (3 min trote / 2 min caminhada) + 5 min',b:'=A',m:35},
+ {s:5,f:'Base 2',a:'5 min caminhada + 4× (4 min trote / 2 min caminhada) + 5 min',b:'=A',m:34},
+ {s:6,f:'Base 2',a:'5 min caminhada + 4× (5 min trote / 2 min caminhada) + 5 min',b:'=A',m:38},
+ {s:7,f:'Base 2',a:'5 min caminhada + 3× (7 min trote / 2 min caminhada) + 5 min',b:'=A',m:37},
+ {s:8,f:'Deload',a:'5 min caminhada + 3× (5 min trote / 2 min caminhada) + 5 min',b:'=A — semana leve proposital',m:31},
+ {s:9,f:'Contínuo',a:'5 min caminhada + 2× (10 min trote / 3 min caminhada) + 5 min',b:'=A',m:36},
+ {s:10,f:'Contínuo',a:'5 min caminhada + 2× (12 min trote / 3 min caminhada) + 5 min',b:'=A',m:40},
+ {s:11,f:'Contínuo',a:'5 min caminhada + 20 min contínuos Z2 + 5 min',b:'=A',m:30},
+ {s:12,f:'Contínuo',a:'5 min caminhada + 25 min contínuos Z2 + 5 min',b:'=A',m:35},
+ {s:13,f:'Contínuo',a:'5 min caminhada + 30 min contínuos Z2 + 5 min',b:'=A',m:40},
+ {s:14,f:'Polarizado',a:'Aquec. 10 min + 6× (2 min forte / 2 min trote) + 5 min solto',b:'35 min contínuos Z2',m:39},
+ {s:15,f:'Polarizado',a:'Aquec. 10 min + 8× (2 min forte / 2 min trote) + 5 min solto',b:'40 min contínuos Z2',m:47},
+ {s:16,f:'Teste',a:'Aquec. 10 min + 5× (3 min forte / 2 min trote) + 5 min solto',b:'45 min contínuos OU 5 km cronometrado',m:45}
+];
+const FORCA={
+ A:[['Agachamento livre ou leg press 45°','3×8-10',5],['Supino reto com halteres','3×8-10',2.5],['Remada curvada ou máquina','3×10-12',2.5],['Desenvolvimento com halteres','3×10-12',2.5],['Rosca direta','2×10-12',2.5],['Prancha isométrica','3×30-45 s',0]],
+ B:[['Levantamento terra romeno','3×8-10',5],['Puxada alta / barra fixa assistida','3×8-10',2.5],['Supino inclinado com halteres','3×10-12',2.5],['Afundo ou leg press unilateral','3×10 por perna',5],['Elevação lateral','3×12-15',2.5],['Tríceps na corda','2×12-15',2.5],['Elevação de pernas (infra)','3×12',0]]
+};
+const FOODS=[
+["Peito de frango grelhado","100 g",159,32,0,2.5],["Coxa de frango sem pele","100 g",170,27,0,6.5],["Patinho moído magro","100 g",190,29,0,8],["Alcatra grelhada","100 g",241,32,0,12],["Contrafilé grelhado","100 g",278,31,0,17],["Filé de tilápia grelhado","100 g",128,26,0,2.7],["Salmão grelhado","100 g",208,22,0,13],["Atum em água (drenado)","100 g",116,26,0,1],["Sardinha em óleo (drenada)","100 g",208,24,0,12],["Ovo inteiro cozido","1 un",72,6.3,0.4,5],["Clara de ovo","1 un",17,3.6,0.2,0],["Ovos mexidos com azeite","2 ovos",216,12.6,0.8,18],["Lombo suíno assado","100 g",210,29,0,10],["Whey protein","1 scoop 30 g",120,24,3,1.5],["Iogurte grego zero","100 g",59,10,4,0],["Iogurte natural integral","170 g",106,8.5,10,3.4],["Queijo cottage","100 g",98,11,3.4,4.3],["Queijo minas frescal","30 g",79,5.3,0.9,6],["Mussarela","1 fatia 20 g",60,4.4,0.4,4.5],["Requeijão light","1 c. sopa",35,2,1,2.5],
+["Arroz branco cozido","100 g / 4 c. sopa",128,2.5,28,0.2],["Arroz integral cozido","100 g",124,2.6,26,1],["Feijão carioca cozido","1 concha 100 g",76,4.8,13.6,0.5],["Feijão preto cozido","100 g",77,4.5,14,0.5],["Macarrão cozido","100 g",158,5.8,30,1.3],["Batata inglesa cozida","100 g",52,1.2,11.9,0.1],["Batata doce cozida","100 g",77,0.6,18.4,0.1],["Mandioca cozida","100 g",125,0.6,30,0.3],["Pão francês","1 un 50 g",150,4,29,1.6],["Pão de forma integral","1 fatia",62,2.5,11,1],["Tapioca (goma)","1 un 60 g",116,0,28,0],["Cuscuz de milho","100 g",113,2.4,25,0.6],["Aveia em flocos","3 c. sopa 30 g",117,4.2,20,2.3],["Granola","30 g",130,3,20,4],["Milho verde","100 g",98,3.2,17,2],["Quinoa cozida","100 g",120,4.4,21,1.9],["Farofa pronta","1 c. sopa",80,0.8,12,3],["Batata frita","100 g",312,3.7,36,17],["Pão de queijo","1 un 30 g",100,2.4,10,5.5],
+["Banana prata","1 un",68,0.9,17,0.1],["Maçã","1 un",68,0.3,18,0.2],["Mamão","100 g",40,0.5,10,0.1],["Laranja","1 un",48,1,12,0.1],["Melancia","100 g",33,0.9,8,0],["Abacate","100 g",96,1.2,6,8.4],["Morango","100 g",30,0.9,6.8,0.3],["Uva","100 g",53,0.7,13.6,0.2],["Manga","100 g",64,0.4,16,0.2],["Abacaxi","100 g",48,0.9,12,0.1],
+["Alface","50 g",7,0.7,1.2,0.1],["Tomate","100 g",15,1.1,3.1,0.2],["Brócolis cozido","100 g",25,2.1,4.4,0.5],["Cenoura crua","100 g",34,1.3,7.7,0.2],["Abobrinha refogada","100 g",26,1.1,3,1.4],["Couve refogada","100 g",90,2.8,8,5.5],["Pepino","100 g",10,0.6,2,0],["Beterraba cozida","100 g",32,1.3,7.2,0.1],["Repolho","100 g",17,1,3.5,0.1],["Salada mista sem molho","150 g",30,1.5,5,0.4],
+["Azeite de oliva","1 c. sopa",72,0,0,8],["Óleo de soja","1 c. sopa",72,0,0,8],["Manteiga","1 c. chá",37,0,0,4.1],["Castanha-do-pará","1 un",26,0.6,0.5,2.6],["Castanha de caju","30 g",170,5.4,9.7,13.5],["Amendoim","30 g",170,7.7,6,13.5],["Pasta de amendoim","1 c. sopa",90,3.7,3,7.5],["Amêndoas","30 g",174,6.4,6.1,15],["Coco ralado","20 g",80,0.7,2,8],
+["Café sem açúcar","200 ml",4,0.2,0.8,0],["Café com 1 c. chá de açúcar","200 ml",24,0.2,5.8,0],["Leite integral","200 ml",122,6.4,9.4,6.6],["Leite desnatado","200 ml",70,6.8,9.8,0.4],["Refrigerante comum","1 lata 350 ml",149,0,37,0],["Refrigerante zero","1 lata",2,0,0,0],["Suco de laranja natural","200 ml",88,1.4,20,0.4],["Água de coco","200 ml",44,0.4,10.4,0],["Cerveja","1 lata 350 ml",143,1.2,11.6,0],["Chopp","300 ml",123,1,10,0],["Vinho tinto","1 taça 150 ml",125,0.1,4,0],["Destilado (dose)","50 ml",110,0,0,0],["Energético","250 ml",112,0,27,0],
+["Barra de proteína","1 un",190,20,20,5],["Barra de cereal","1 un",95,1,18,2],["Sanduíche natural","1 un",280,15,32,10],["Marmita executiva média","1 un",650,35,70,25],["Salgado de padaria","1 un",260,8,25,14],["Coxinha","1 un",240,7,24,13],["Pastel de carne","1 un",290,8,25,18],["Pizza mussarela","1 fatia",266,11,30,11],["Hambúrguer de lanchonete","1 un",540,25,45,28],["Bolacha recheada","3 un",145,1.5,21,6],["Chocolate ao leite","1 barra 25 g",133,1.8,15,7.5],["Sorvete de massa","1 bola",120,2,14,6],["Açaí com granola","300 ml",420,4,60,18],["Miojo","1 pacote",350,8,50,13],["Sushi","1 peça",40,1.5,6,0.8],["Shake whey + banana + aveia","1 un",310,28,40,4],["Pão francês com manteiga","1 un",187,4,29,5.7],["Misto quente","1 un",290,14,28,13]
+];
+
+/* ---------- MEUS ALIMENTOS (o que ele come de verdade) ----------
+   [nome, porção, kcal, P, C, G, [porções rápidas], fonte]                */
+const MEUS_DEFAULT=[
+ ["Marmita Liv Up — Turbinada (frango + purê de batata doce + brócolis)","1 un 300 g",393,42,23.7,13.8,[0.5,1],"rótulo"],
+ ["Marmita Liv Up — Dia a Dia (coxa/sobrecoxa + arroz + feijão + farofa)","1 un 300 g",495,36,57,14.4,[0.5,1],"rótulo"],
+ ["Marmita Liv Up — carne moída + arroz integral + feijão","1 un 300 g",465,33,54,15,[0.5,1],"estimativa"],
+ ["Marmita Liv Up — linha leve (<450 kcal)","1 un 300 g",420,35,40,12,[1],"estimativa — confira o rótulo"],
+ ["Whey Dux Concentrado","1 dose 30 g",120,20,4,3,[1,1.5,2],"rótulo: 20 g proteína/dose"],
+ ["Whey Dux Isolado","1 dose 30 g",115,24,1.5,1,[1,1.5,2],"rótulo: 24 g proteína/dose"],
+ ["YoPRO iogurte colherável","1 pote 160 g",85,15.2,5.6,0,[1,2],"rótulo"],
+ ["YoPRO líquido / bebida láctea","1 un 250 g",150,15,12,2.5,[1],"estimativa — confira o rótulo"],
+ ["Dux Protein Bar","1 un",180,12,18,6,[1],"estimativa"],
+ ["Leite desnatado","200 ml",70,6.8,9.8,0.4,[1,1.5],"TACO"],
+ ["Leite integral","200 ml",122,6.4,9.4,6.6,[1],"TACO"],
+ ["Atum em água (lata drenada)","1 lata ~120 g",139,31.2,0,1.2,[1,2],"TACO"],
+ ["Ovo cozido","1 un",72,6.3,0.4,5,[2,3,4],"TACO"],
+ ["Queijo cottage","1 pote 200 g",196,22,6.8,8.6,[0.5,1],"TACO"],
+ ["Salada pronta de mercado (sem molho)","1 pote 150 g",30,1.5,5,0.4,[1],"TACO"],
+ ["Pão de forma integral","1 fatia",62,2.5,11,1,[2,4],"TACO"],
+ ["Aveia em flocos","3 c. sopa 30 g",117,4.2,20,2.3,[1],"TACO"],
+ ["Banana prata","1 un",68,0.9,17,0.1,[1,2],"TACO"],
+ ["Mamão","1 fatia 150 g",60,0.8,15,0.2,[1],"TACO"],
+ ["Castanha de caju","20 g",113,3.6,6.5,9,[1],"TACO"],
+ ["Castanha-do-pará","1 un",26,0.6,0.5,2.6,[3],"TACO"],
+ ["Azeite de oliva","1 c. sopa",72,0,0,8,[1],"TACO"],
+ ["Café sem açúcar","200 ml",4,0.2,0.8,0,[1],"TACO"],
+ ["Barra Bold (Bold Bar)","1 un 60 g",215,20,16,9.5,[1,2],"rótulo — varia 205–235 kcal conforme o sabor"],
+ ["Sanduíche: 2 pães + queijo + peito de peru","2 fatias pão + 2 mussarela + 3 peru",310,22,25,13.4,[0.5,1],"soma dos rótulos"],
+ ["Peito de peru fatiado","1 fatia 20 g",22,2.8,0.8,0.8,[3,4,5],"rótulo Sadia"],
+ ["Queijo mussarela","1 fatia 20 g",60,4.4,0.4,4.5,[1,2,3],"TACO"],
+ ["Pão francês","1 un 50 g",150,4,29,1.6,[1,2],"TACO"],
+ ["Refeitório: arroz + feijão + carne ~120 g","1 prato",700,42,64,29,[0.75,1],"estimativa — preparo institucional, bastante gordura"],
+ ["Refeitório: versão contida (menos arroz, mais salada)","1 prato",480,40,33,19,[1],"estimativa"],
+ ["Fora: frango grelhado 200 g","200 g",420,64,0,17,[1],"estimativa com gordura de preparo"],
+ ["Fora: fraldinha 200 g","200 g",530,54,0,34,[1],"estimativa"],
+ ["Fora: arroz + feijão (porção de restaurante)","1 porção",300,9,56,6,[0.5,1],"estimativa"],
+ ["Fora: massa ao sugo","1 prato ~350 g",560,18,98,10,[0.5,1],"estimativa"],
+ ["Fora: massa à bolonhesa","1 prato ~380 g",640,30,82,20,[0.5,1],"estimativa"],
+ ["Fora: massa cremosa / 4 queijos","1 prato ~350 g",780,25,80,38,[0.5,1],"estimativa"],
+ ["Fora: farofa + batata frita","1 porção pequena",280,3,30,16,[1],"estimativa"]
+];
+
+/* ---------- CARDÁPIO POR HORÁRIO ---------- */
+const CARDAPIO={
+ normal:[
+  {h:'07:00',n:'Café da manhã',ops:[
+   {n:'A · Shake Dux + leite + banana + aveia',it:[['Whey Dux Concentrado',1.5],['Leite desnatado',1],['Banana prata',1],['Aveia em flocos',1]]},
+   {n:'B · YoPRO + whey + fruta + castanha + pão',it:[['YoPRO iogurte colherável',1],['Whey Dux Concentrado',1],['Mamão',1],['Castanha de caju',1],['Pão de forma integral',1]]},
+   {n:'C · Ovos + pão + YoPRO + fruta',it:[['Ovo cozido',3],['Pão de forma integral',1],['YoPRO iogurte colherável',1],['Banana prata',1],['Café sem açúcar',1]]},
+   {n:'D · Sanduíche de queijo e peru + YoPRO + café',it:[['Sanduíche: 2 pães + queijo + peito de peru',1],['YoPRO iogurte colherável',1],['Café sem açúcar',1]]}
+  ]},
+  {h:'12:30',n:'Almoço',ops:[
+   {n:'A · Marmita Turbinada + salada + azeite + fruta',it:[['Marmita Liv Up — Turbinada (frango + purê de batata doce + brócolis)',1],['Salada pronta de mercado (sem molho)',1],['Azeite de oliva',1],['Banana prata',1]]},
+   {n:'B · Marmita Dia a Dia + salada',it:[['Marmita Liv Up — Dia a Dia (coxa/sobrecoxa + arroz + feijão + farofa)',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'C · Sem marmita: atum + salada + pão + azeite',it:[['Atum em água (lata drenada)',1],['Salada pronta de mercado (sem molho)',1],['Pão de forma integral',2],['Azeite de oliva',1],['Banana prata',1]]},
+   {n:'D · Refeitório: arroz, feijão e carne',it:[['Refeitório: arroz + feijão + carne ~120 g',1]]},
+   {n:'E · Refeitório contido: menos arroz, mais salada',it:[['Refeitório: versão contida (menos arroz, mais salada)',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'F · Fora: frango 200 g + meia porção de arroz e feijão + salada',it:[['Fora: frango grelhado 200 g',1],['Fora: arroz + feijão (porção de restaurante)',0.5],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'G · Fora: fraldinha 200 g + meia porção de arroz e feijão + salada',it:[['Fora: fraldinha 200 g',1],['Fora: arroz + feijão (porção de restaurante)',0.5],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'H · Fora: massa à bolonhesa + salada',it:[['Fora: massa à bolonhesa',1],['Salada pronta de mercado (sem molho)',1]]}
+  ]},
+  {h:'16:30',n:'Lanche',ops:[
+   {n:'A · YoPRO + whey na água',it:[['YoPRO iogurte colherável',1],['Whey Dux Concentrado',1]]},
+   {n:'B · 2 YoPRO + castanha de caju',it:[['YoPRO iogurte colherável',2],['Castanha de caju',1]]},
+   {n:'C · Barra Bold + café',it:[['Barra Bold (Bold Bar)',1],['Café sem açúcar',1]]},
+   {n:'D · Sanduíche de queijo e peru (meio) + YoPRO',it:[['Sanduíche: 2 pães + queijo + peito de peru',0.5],['YoPRO iogurte colherável',1]]}
+  ]},
+  {h:'20:00',n:'Jantar',ops:[
+   {n:'A · Marmita Turbinada + salada + azeite',it:[['Marmita Liv Up — Turbinada (frango + purê de batata doce + brócolis)',1],['Salada pronta de mercado (sem molho)',1],['Azeite de oliva',1]]},
+   {n:'B · Marmita carne moída + salada',it:[['Marmita Liv Up — carne moída + arroz integral + feijão',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'C · Sem marmita: atum + cottage + salada + pão',it:[['Atum em água (lata drenada)',1],['Queijo cottage',0.5],['Salada pronta de mercado (sem molho)',1],['Pão de forma integral',2],['Azeite de oliva',1]]},
+   {n:'D · Sanduíche de queijo e peru + YoPRO + salada',it:[['Sanduíche: 2 pães + queijo + peito de peru',1],['YoPRO iogurte colherável',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'E · Refeitório: arroz, feijão e carne',it:[['Refeitório: arroz + feijão + carne ~120 g',1]]},
+   {n:'F · Fora: fraldinha 200 g + salada',it:[['Fora: fraldinha 200 g',1],['Salada pronta de mercado (sem molho)',1]]}
+  ]},
+  {h:'22:30',n:'Ceia',ops:[
+   {n:'A · YoPRO + whey no leite desnatado',it:[['YoPRO iogurte colherável',1],['Whey Dux Concentrado',1],['Leite desnatado',1]]},
+   {n:'B · 2 YoPRO + 1 dose de whey',it:[['YoPRO iogurte colherável',2],['Whey Dux Concentrado',1]]},
+   {n:'C · Cottage + whey',it:[['Queijo cottage',0.75],['Whey Dux Concentrado',1]]}
+  ]}
+ ],
+ plantao:[
+  {h:'antes de sair',n:'Reforço pré-plantão',ops:[
+   {n:'A · Shake Dux + leite + banana + aveia',it:[['Whey Dux Concentrado',1.5],['Leite desnatado',1],['Banana prata',1],['Aveia em flocos',1]]},
+   {n:'B · Ovos + pão + YoPRO',it:[['Ovo cozido',3],['Pão de forma integral',2],['YoPRO iogurte colherável',1]]},
+   {n:'C · Sanduíche de queijo e peru + YoPRO + café',it:[['Sanduíche: 2 pães + queijo + peito de peru',1],['YoPRO iogurte colherável',1],['Café sem açúcar',1]]}
+  ]},
+  {h:'meio da manhã',n:'Mochila 1',ops:[
+   {n:'A · YoPRO + castanha-do-pará',it:[['YoPRO iogurte colherável',1],['Castanha-do-pará',1]]},
+   {n:'B · Barra Bold + café',it:[['Barra Bold (Bold Bar)',1],['Café sem açúcar',1]]},
+   {n:'C · Barra de proteína + fruta',it:[['Dux Protein Bar',1],['Banana prata',1]]}
+  ]},
+  {h:'almoço',n:'Refeitório / marmita',ops:[
+   {n:'A · Refeitório contido: menos arroz, mais salada',it:[['Refeitório: versão contida (menos arroz, mais salada)',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'B · Refeitório cheio: arroz, feijão e carne',it:[['Refeitório: arroz + feijão + carne ~120 g',1]]},
+   {n:'C · Marmita levada de casa + salada + azeite',it:[['Marmita Liv Up — Turbinada (frango + purê de batata doce + brócolis)',1],['Salada pronta de mercado (sem molho)',1],['Azeite de oliva',1]]}
+  ]},
+  {h:'tarde',n:'Mochila 2',ops:[
+   {n:'A · Whey em sachê + castanha de caju',it:[['Whey Dux Concentrado',1],['Castanha de caju',1]]},
+   {n:'B · YoPRO + castanha de caju',it:[['YoPRO iogurte colherável',1],['Castanha de caju',1]]}
+  ]},
+  {h:'noite',n:'Jantar no plantão',ops:[
+   {n:'A · Atum + cottage + pão + salada + azeite',it:[['Atum em água (lata drenada)',1],['Queijo cottage',0.5],['Pão de forma integral',2],['Salada pronta de mercado (sem molho)',1],['Azeite de oliva',1]]},
+   {n:'B · Marmita Liv Up levada de casa',it:[['Marmita Liv Up — linha leve (<450 kcal)',1],['Salada pronta de mercado (sem molho)',1]]},
+   {n:'C · Sanduíche de queijo e peru + YoPRO',it:[['Sanduíche: 2 pães + queijo + peito de peru',1],['YoPRO iogurte colherável',1]]},
+   {n:'D · Refeitório contido',it:[['Refeitório: versão contida (menos arroz, mais salada)',1]]}
+  ]},
+  {h:'madrugada',n:'Se a fome bater',ops:[
+   {n:'A · YoPRO (só se realmente com fome)',it:[['YoPRO iogurte colherável',1]]},
+   {n:'B · Café + castanha-do-pará',it:[['Café sem açúcar',1],['Castanha-do-pará',1]]}
+  ]}
+ ]
+};
+
+/* ---------- ESTADO ---------- */
+let S=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!S){
+  const antigo=JSON.parse(localStorage.getItem('protocolo_jz_v1')||'null');
+  S={v:4,perfil:{idade:28,alt:185,peso:90,meta:80,fator:1.4,def:650,prot:2.2},
+     nivel:1,micro:{inicio:hoje(),nivel:1,sess:novasSessoes(1)},hist:[],
+     comida:{},pratos:[],meus:JSON.parse(JSON.stringify(MEUS_DEFAULT)),modo:'normal',
+     pesos:[{d:hoje(),kg:90}],cintura:[],sono:{},plantao:[],dor:[],testes:[],cargas:{},fotos:[],
+     calib:{ajuste:0,ultima:null,log:[]},inicioDeficit:hoje()};
+  if(antigo){ // migra o que der do app anterior
+    if(antigo.perfil)S.perfil=Object.assign(S.perfil,antigo.perfil);
+    if(antigo.pesos)S.pesos=antigo.pesos; if(antigo.comida)S.comida=antigo.comida;
+    if(antigo.cargas)S.cargas=antigo.cargas; if(antigo.hist)S.hist=antigo.hist;
+    if(antigo.micro)S.micro=antigo.micro; if(antigo.nivel)S.nivel=antigo.nivel;
+  }
+  calcMetas();save();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Armazenamento cheio. Apague algumas fotos de progresso em Corpo.')}}
+function novasSessoes(n){
+  const w=CORRIDA[n-1];
+  return[
+   {id:'FA',tipo:'forca',t:'Força A — corpo inteiro',d:'6 exercícios, RIR 1–2. Versão mínima em dia ruim: 3 primeiros, 2 séries.',st:'',mot:'',data:'',rpe:0,min:50},
+   {id:'CA',tipo:'corrida',t:'Corrida A — semana '+n,d:w.a,st:'',mot:'',data:'',rpe:0,min:w.m},
+   {id:'FB',tipo:'forca',t:'Força B — corpo inteiro',d:'7 exercícios, RIR 1–2. Versão mínima: 3 primeiros, 2 séries.',st:'',mot:'',data:'',rpe:0,min:55},
+   {id:'CB',tipo:'corrida',t:'Corrida B — semana '+n,d:w.b==='=A'?w.a:w.b,st:'',mot:'',data:'',rpe:0,min:w.m},
+   {id:'BN',tipo:'bonus',t:'Bônus (opcional)',d:'Caminhada rápida 40 min ou trote Z2 leve 20 min. Ideal para pós-plantão. Não entra na avaliação da semana.',st:'',mot:'',data:'',rpe:0,min:40}
+  ];
+}
+/* migração — roda uma única vez, ao subir de versão */
+if(!S.v||S.v<3){
+  if(!S.meus||!S.meus.length)S.meus=JSON.parse(JSON.stringify(MEUS_DEFAULT));
+  if(!S.modo)S.modo='normal';
+  S.perfil.prot=2.2;
+  S.perfil.def=650;
+  S.v=3; calcMetas(); save();
+}
+if(!S.meus)S.meus=JSON.parse(JSON.stringify(MEUS_DEFAULT));
+if(!S.modo)S.modo='normal';
+/* acrescenta alimentos novos sem sobrescrever os que você editou */
+if(!S.v||S.v<4){
+  const tem=new Set(S.meus.map(x=>x[0]));
+  MEUS_DEFAULT.forEach(f=>{if(!tem.has(f[0]))S.meus.push(JSON.parse(JSON.stringify(f)))});
+  S.v=4; save();
+}
+
+function calcMetas(){
+  const p=S.perfil;
+  const tmb=Math.round(10*p.peso+6.25*p.alt-5*p.idade+5);
+  const getT=Math.round(tmb*p.fator);
+  const aj=(S.calib&&S.calib.ajuste)||0;
+  const get=getT+aj;
+  const kcal=Math.max(Math.round(tmb*1.05),get-p.def);
+  const prot=Math.round(p.peso*(p.prot||2.2)),gord=Math.round(p.peso*0.7);
+  const carb=Math.max(60,Math.round((kcal-prot*4-gord*9)/4));
+  // teto de Alpert: ~31 kcal por kg de gordura corporal por dia
+  const gordKg=p.peso*0.25, tetoDef=Math.round(gordKg*31);
+  S.metas={tmb,getTeorico:getT,get,kcal,prot,carb,gord,tetoDef};
+}
+
+/* ---------- MÉDIA MÓVEL EXPONENCIAL ---------- */
+function ema(arr,alpha){ // arr = [{d,kg}] ordenado
+  let out=[],e=null;
+  arr.forEach(x=>{e = e===null? x.kg : e+alpha*(x.kg-e); out.push({d:x.d,v:e})});
+  return out;
+}
+function tendencia(){ // kg/semana pela EMA dos últimos 21 dias
+  const E=ema(S.pesos,0.25);
+  if(E.length<3)return null;
+  const fim=E[E.length-1], corte=addD(fim.d,-21);
+  const ini=E.filter(x=>x.d>=corte)[0]||E[0];
+  const nd=dias(ini.d,fim.d); if(nd<7)return null;
+  return {kgSem:(fim.v-ini.v)/nd*7, atual:fim.v, dias:nd};
+}
+
+/* ---------- AUTO-AJUSTE CALÓRICO ---------- */
+function autoCalibrar(forcar){
+  const p=S.perfil,M=S.metas;
+  const ult=S.calib.ultima||S.pesos[0].d;
+  const decorridos=dias(ult,hoje());
+  const janela=S.pesos.filter(x=>dias(x.d,hoje())<=14);
+  const diasComida=Object.keys(S.comida).filter(d=>dias(d,hoje())<=14&&dias(d,hoje())>=0&&totaisDia(d).kcal>500);
+  const t=tendencia();
+  const info={decorridos,nPesos:janela.length,nComida:diasComida.length,t};
+
+  if(!forcar && decorridos<14)return {ok:false,info,msg:'Próxima calibração em '+(14-decorridos)+' dia(s).'};
+  if(janela.length<4)return {ok:false,info,msg:'Preciso de pelo menos 4 pesagens nos últimos 14 dias. Você tem '+janela.length+'.'};
+  if(!t)return {ok:false,info,msg:'Ainda não há série de peso longa o suficiente para estimar tendência.'};
+
+  const esperado=-(p.def*7/KCAL_KG); // kg/semana esperado (negativo)
+  const real=t.kgSem;
+  const erro=real-esperado; // >0 = perdendo menos que o previsto
+
+  let ingMedia=null;
+  if(diasComida.length>=8){
+    ingMedia=diasComida.reduce((a,d)=>a+totaisDia(d).kcal,0)/diasComida.length;
+  }
+  // GET real observado = ingestão média + (déficit energético manifesto no peso)
+  let getReal;
+  if(ingMedia) getReal=Math.round(ingMedia - real*KCAL_KG/7);
+  else getReal=Math.round(M.kcal - real*KCAL_KG/7); // assume aderência à meta
+
+  let novoAjuste=Math.round(getReal-M.getTeorico);
+  novoAjuste=Math.max(-500,Math.min(500,novoAjuste));                 // trava absoluta
+  const delta=Math.max(-250,Math.min(250,novoAjuste-(S.calib.ajuste||0))); // no máx 250 kcal por ciclo
+  novoAjuste=(S.calib.ajuste||0)+delta;
+
+  return {ok:true,info,real,esperado,erro,ingMedia,getReal,novoAjuste,delta,
+    aplicar(){S.calib.ajuste=novoAjuste;S.calib.ultima=hoje();
+      S.calib.log.push({d:hoje(),real:+real.toFixed(2),esperado:+esperado.toFixed(2),getReal,ajuste:novoAjuste});
+      calcMetas();save();render()}};
+}
+function renderCalib(){
+  const r=autoCalibrar(false),M=S.metas,p=S.perfil;
+  const t=tendencia();
+  let h='';
+  h+=`<div class="g2" style="margin-bottom:10px">
+    <div class="kpi"><div class="v">${M.kcal}</div><div class="s">${S.calib.ajuste?(S.calib.ajuste>0?'+':'')+S.calib.ajuste+' kcal de calibração':'ainda na estimativa teórica'}</div><div class="l">Meta atual</div></div>
+    <div class="kpi"><div class="v">${t?(t.kgSem>0?'+':'')+t.kgSem.toFixed(2):'–'}</div><div class="s">${t?'kg/semana (real, '+t.dias+' d)':'sem dados'}</div><div class="l">Tendência</div></div>
+  </div>`;
+  if(!r.ok){
+    h+=`<div class="note">${r.msg}</div>`;
+    if(t){const esp=-(p.def*7/KCAL_KG);
+      h+=`<p class="mini">Previsto pela equação: <b>${esp.toFixed(2)} kg/semana</b>. Real: <b>${t.kgSem.toFixed(2)}</b>.</p>`}
+    h+=`<button class="b sm" onclick="forcarCalib()">Calibrar agora mesmo assim</button>`;
+  } else {
+    const dir=r.delta>0?'aumentar':'reduzir';
+    h+=`<div class="note ${Math.abs(r.erro)<0.08?'g':'w'}">
+      Previsto <b>${r.esperado.toFixed(2)} kg/sem</b> · real <b>${r.real.toFixed(2)} kg/sem</b>.
+      ${r.ingMedia?'Ingestão média medida: <b>'+Math.round(r.ingMedia)+' kcal/dia</b>.':'<i>Poucos dias de registro alimentar — assumi que você bateu a meta.</i>'}
+      Gasto total real estimado: <b>${r.getReal} kcal</b> (teórico: ${M.getTeorico}).
+      ${Math.abs(r.delta)<25?'Diferença pequena — nada a mudar.':'Sugestão: <b>'+dir+' '+Math.abs(r.delta)+' kcal/dia</b>, nova meta <b>'+Math.max(Math.round(M.tmb*1.05),M.getTeorico+r.novoAjuste-p.def)+' kcal</b>.'}
+    </div>`;
+    if(Math.abs(r.delta)>=25)h+=`<button class="b p w100" onclick="aplicarCalib()">Aplicar novo alvo</button>`;
+  }
+  // pausa metabólica
+  const semDef=Math.floor(dias(S.inicioDeficit||S.pesos[0].d,hoje())/7);
+  if(semDef>=10)h+=`<div class="note w"><b>${semDef} semanas em déficit contínuo.</b> Vale 1–2 semanas comendo na manutenção (${M.get} kcal). O ensaio MATADOR sugere que déficit intermitente atenua a adaptação metabólica e melhora a manutenção do resultado — além de aliviar a parte psicológica. <button class="b sm" onclick="S.inicioDeficit='${hoje()}';save();render()">Iniciei a pausa</button></div>`;
+  if(S.calib.log.length)h+=`<h3>Histórico de calibração</h3><table><thead><tr><th>Data</th><th class="n">Real</th><th class="n">GET real</th><th class="n">Ajuste</th></tr></thead><tbody>${S.calib.log.slice().reverse().map(l=>`<tr><td>${br(l.d)}</td><td class="n">${l.real} kg/s</td><td class="n">${l.getReal}</td><td class="n">${l.ajuste>0?'+':''}${l.ajuste}</td></tr>`).join('')}</tbody></table>`;
+  h+=`<p class="mini" style="margin-top:10px">Por que isto existe: Mifflin-St Jeor erra 10–15% no indivíduo, e o gasto energético cai durante a perda de peso (adaptação metabólica + menos massa corporal para carregar). Uma meta fixa vira imprecisa em 6–8 semanas. Aqui a meta é corrigida pelo <b>seu</b> resultado medido, não pela equação.</p>`;
+  $('calib-out').innerHTML=h;
+}
+function forcarCalib(){const r=autoCalibrar(true);if(!r.ok){alert(r.msg);return}
+  if(confirm('Aplicar ajuste de '+(r.delta>0?'+':'')+r.delta+' kcal/dia?'))r.aplicar()}
+function aplicarCalib(){const r=autoCalibrar(false);if(r.ok)r.aplicar()}
+
+/* ---------- CARGA INTERNA (sRPE) ---------- */
+function sessoesFeitas(){
+  return [...S.hist.flatMap(h=>h.sess||[]),...S.micro.sess].filter(s=>s.st==='feito'&&s.data);
+}
+function cargaJanela(d0,d1){
+  return sessoesFeitas().filter(s=>dias(s.data,hoje())>=d0&&dias(s.data,hoje())<=d1)
+    .reduce((a,s)=>a+(s.rpe||5)*(s.min||30),0);
+}
+function renderCarga(){
+  const ag=cargaJanela(0,6), cr4=cargaJanela(0,27)/4;
+  const feitas=sessoesFeitas().map(s=>s.data).sort();
+  const span=feitas.length?dias(feitas[0],hoje()):0;
+  const maduro=span>=21&&feitas.length>=6;
+  const acwr=(maduro&&cr4>0)?ag/cr4:null;
+  $('cg-ag').textContent=Math.round(ag);
+  $('cg-acwr').textContent=acwr?acwr.toFixed(2):'–';
+  let m='';
+  if(!maduro)m='<div class="note">Ainda sem 3 semanas de histórico para comparar — a razão só faz sentido depois que existe uma linha de base.</div>';
+  else if(acwr>1.5)m='<div class="note r"><b>Salto brusco de volume.</b> A carga desta semana está bem acima da sua média de 4 semanas. Repita o volume atual antes de subir de novo.</div>';
+  else if(acwr<0.8)m='<div class="note w">Carga bem abaixo da média — semana de plantão pesado? Ao voltar, retome pelo volume anterior, não pelo que "deveria" estar fazendo.</div>';
+  else m='<div class="note g">Progressão dentro de faixa razoável.</div>';
+  $('cg-msg').innerHTML=m;
+  const D=S.dor.slice(-12).reverse();
+  $('dor-lista').innerHTML=D.length?'<table><thead><tr><th>Data</th><th>Região</th><th class="n">0–10</th><th></th></tr></thead><tbody>'+D.map(x=>`<tr><td>${br(x.d)}</td><td>${x.reg}</td><td class="n">${x.n}</td><td class="n"><button class="b sm" onclick="delDor('${x.d}','${x.reg}')">×</button></td></tr>`).join('')+'</tbody></table>':'<p class="mini">Nada registrado — ótimo sinal.</p>';
+  const recente=S.dor.filter(x=>dias(x.d,hoje())<=7&&x.n>=4);
+  if(recente.length>=2)$('dor-lista').insertAdjacentHTML('afterbegin','<div class="note r"><b>Dor ≥4 registrada '+recente.length+'× nos últimos 7 dias.</b> Suspenda a corrida por 5–7 dias, mantenha a força sem impacto e reavalie. Se for dor pontual em tíbia que dói ao apoiar, investigue fratura por estresse antes de retomar.</div>')}
+function addDor(){const n=parseFloat($('d-niv').value);if(isNaN(n))return;
+  S.dor.push({d:hoje(),reg:$('d-reg').value,n});$('d-niv').value='';save();renderCarga()}
+function delDor(d,reg){S.dor=S.dor.filter(x=>!(x.d===d&&x.reg===reg));save();renderCarga()}
+
+/* ---------- MOTOR ADAPTATIVO ---------- */
+function fecharMicro(manual){
+  const m=S.micro;
+  const cor=m.sess.filter(s=>s.tipo==='corrida');
+  const feitas=cor.filter(s=>s.st==='feito').length;
+  const fFeitas=m.sess.filter(s=>s.tipo==='forca'&&s.st==='feito').length;
+  // Não é preciso marcar "não deu": o que não estiver marcado como feito conta como não feito.
+  // Marcar só muda o resultado quando o motivo foi plantão — e mesmo isso o app infere
+  // dos dias de plantão registrados dentro do microciclo.
+  const marcadasPlantao=cor.filter(s=>s.st==='perdido'&&/plant/i.test(s.mot)).length;
+  const naoFeitas=cor.filter(s=>s.st!=='feito').length;
+  const plantoesNoCiclo=S.plantao.filter(d=>dias(m.inicio,d)>=0&&dias(d,hoje())>=0).length;
+  const porPlantao=Math.max(marcadasPlantao,Math.min(naoFeitas,plantoesNoCiclo));
+  m.sess.forEach(s=>{if(!s.st&&s.tipo!=='bonus'){s.st='perdido';s.mot=plantoesNoCiclo?'não registrado (semana com plantão)':'não registrado'}});
+  const ultC=sessoesFeitas().filter(s=>s.tipo==='corrida').map(s=>s.data).sort().pop();
+  const gap=ultC?dias(ultC,hoje()):999;
+  let novo,dec;
+  if(gap>14&&S.hist.length>0){novo=Math.max(1,m.nivel-2);dec='>14 dias sem correr → regride 2 semanas';}
+  else if(feitas>=2){novo=Math.min(16,m.nivel+1);dec='2/2 corridas → avança para a semana '+Math.min(16,m.nivel+1);}
+  else if(feitas===1){novo=m.nivel;dec='1/2 corridas → repete a semana '+m.nivel;}
+  else if(porPlantao>=2&&gap<=10){novo=m.nivel;dec='0/2, mas ambas por plantão e com corrida recente → repete sem regredir';}
+  else {novo=Math.max(1,m.nivel-1);dec='0/2 corridas → regride para a semana '+Math.max(1,m.nivel-1);}
+  S.hist.push({inicio:m.inicio,fim:hoje(),nivel:m.nivel,corridas:feitas,forcas:fFeitas,dec,sess:m.sess});
+  S.nivel=novo;S.micro={inicio:hoje(),nivel:novo,sess:novasSessoes(novo)};
+  save();render();
+  if(manual)alert('Microciclo fechado.\n\n'+dec);
+}
+function marcar(i,st){
+  const s=S.micro.sess[i];
+  if(s.st===st){s.st='';s.data='';s.mot='';s.rpe=0;save();render();return}
+  if(st==='perdido'){
+    const mot=prompt('Motivo? (plantão / cansaço / dor / sem tempo / outro)','plantão');
+    if(mot===null)return;s.mot=mot;
+  } else {
+    s.mot='';
+    const r=prompt('Como foi o esforço, de 0 a 10? (sRPE — 5 = moderado, 8 = difícil)','6');
+    s.rpe=Math.max(0,Math.min(10,parseFloat(r)||6));
+    const mn=prompt('Duração em minutos?',s.min);
+    s.min=parseFloat(mn)||s.min;
+  }
+  s.st=st;s.data=hoje();save();render();
+}
+function autoFechar(){if(dias(S.micro.inicio,hoje())>=7)fecharMicro(false)}
+
+/* ---------- SONO / PLANTÃO ---------- */
+function setSono(v){const h=parseFloat(v);if(isNaN(h))return;S.sono[hoje()]=h;save();render()}
+function togglePlantao(){
+  const i=S.plantao.indexOf(hoje());
+  if(i>=0)S.plantao.splice(i,1);else S.plantao.push(hoje());
+  save();render();
+}
+
+/* ---------- COMIDA ---------- */
+let fDia=hoje(),sel=null;
+function totaisDia(d){
+  const l=(S.comida[d]||[]);
+  return l.reduce((a,x)=>({kcal:a.kcal+x.kcal,p:a.p+x.p,c:a.c+x.c,g:a.g+x.g}),{kcal:0,p:0,c:0,g:0});
+}
+function mudaDia(n){fDia=addD(fDia,n);renderComida()}
+function buscar(){
+  const q=$('busca').value.toLowerCase().trim(),r=$('res');
+  if(q.length<2){r.classList.add('hide');return}
+  const hits=FOODS.map((f,i)=>[f,i]).filter(([f])=>f[0].toLowerCase().includes(q)).slice(0,40);
+  r.classList.remove('hide');
+  r.innerHTML=hits.length?hits.map(([f,i])=>`<div class="fi" onclick="pick(${i})"><span><b>${f[0]}</b><br><span class="mini">${f[1]}</span></span><span class="mini" style="text-align:right;white-space:nowrap">${f[2]} kcal<br>P ${f[3]} g</span></div>`).join(''):'<div class="fi mini">Nada encontrado. Use um alimento parecido — consistência importa mais que precisão perfeita.</div>';
+}
+function pick(i){sel=FOODS[i];$('a-nome').value=sel[0]+' ('+sel[1]+')';$('addbox').classList.remove('hide');$('res').classList.add('hide');prevMac()}
+function prevMac(){if(!sel)return;const q=parseFloat($('a-qtd').value)||0;
+  $('a-prev').innerHTML=`<b>${Math.round(sel[2]*q)} kcal</b> · P ${(sel[3]*q).toFixed(1)} g · C ${(sel[4]*q).toFixed(1)} g · G ${(sel[5]*q).toFixed(1)} g`}
+function cancelAdd(){sel=null;$('addbox').classList.add('hide');$('busca').value='';$('res').classList.add('hide')}
+function addFood(){
+  if(!sel)return;const q=parseFloat($('a-qtd').value)||1;
+  (S.comida[fDia]=S.comida[fDia]||[]).push({ref:$('a-ref').value,nome:sel[0]+(q!==1?' ×'+q:''),kcal:sel[2]*q,p:sel[3]*q,c:sel[4]*q,g:sel[5]*q});
+  cancelAdd();save();renderComida();renderHoje();
+}
+function delFood(i){S.comida[fDia].splice(i,1);save();renderComida();renderHoje()}
+function salvarPratoDia(){
+  const l=S.comida[fDia]||[];if(!l.length){alert('Não há nada registrado neste dia.');return}
+  const n=prompt('Nome do prato (ex.: "Marmita padrão", "Café da manhã"):');if(!n)return;
+  S.pratos.push({nome:n,itens:JSON.parse(JSON.stringify(l))});save();renderComida();renderHoje();
+}
+function aplicarPrato(i){
+  const p=S.pratos[i];
+  (S.comida[fDia]=S.comida[fDia]||[]).push(...JSON.parse(JSON.stringify(p.itens)));
+  save();renderComida();renderHoje();
+}
+function delPrato(i){if(confirm('Apagar "'+S.pratos[i].nome+'"?')){S.pratos.splice(i,1);save();renderComida();renderHoje()}}
+function pratosHTML(comDel){
+  if(!S.pratos.length)return '<p class="mini">Nenhum prato salvo ainda. Registre uma refeição típica na aba Comida e toque em “Salvar o dia inteiro como prato”. Depois ela entra com um toque só.</p>';
+  return S.pratos.map((p,i)=>{
+    const t=p.itens.reduce((a,x)=>({k:a.k+x.kcal,p:a.p+x.p}),{k:0,p:0});
+    return `<div class="sess" style="padding:11px;margin-bottom:7px"><div style="display:flex;gap:8px;align-items:center">
+      <div style="flex:1"><div class="t">${p.nome}</div><div class="mini">${Math.round(t.k)} kcal · P ${Math.round(t.p)} g · ${p.itens.length} itens</div></div>
+      <button class="b sm p" onclick="aplicarPrato(${i})">+ Add</button>
+      ${comDel?`<button class="b sm" onclick="delPrato(${i})">×</button>`:''}
+    </div></div>`}).join('');
+}
+/* ---------- MEUS ALIMENTOS ---------- */
+function acharMeu(nome){
+  let f=S.meus.find(x=>x[0]===nome);
+  if(f)return f;
+  const g=FOODS.find(x=>x[0]===nome);
+  return g?[g[0],g[1],g[2],g[3],g[4],g[5],[1],'TACO']:null;
+}
+function addMeu(nome,q,ref){
+  const f=acharMeu(nome); if(!f)return null;
+  const it={ref:ref||refAtual(),nome:f[0]+(q!==1?' ×'+q:''),kcal:f[2]*q,p:f[3]*q,c:f[4]*q,g:f[5]*q};
+  (S.comida[fDia]=S.comida[fDia]||[]).push(it); return it;
+}
+function refAtual(){
+  const h=new Date().getHours();
+  return h<10?'Café':h<15?'Almoço':h<18?'Lanche':h<21.5?'Jantar':'Ceia';
+}
+function quickAdd(i,q){
+  const f=S.meus[i]; addMeu(f[0],q); save(); renderComida(); renderHoje();
+}
+function renderMeus(){
+  $('meus-lista').innerHTML=S.meus.map((f,i)=>{
+    const qts=(f[6]&&f[6].length?f[6]:[1]);
+    return `<div class="card" style="padding:12px;margin-bottom:8px">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:14px;line-height:1.3">${f[0]}</div>
+          <div class="mini">${f[1]} · ${f[2]} kcal · P ${f[3]} g · C ${f[4]} g · G ${f[5]} g${f[7]?' · <i>'+f[7]+'</i>':''}</div>
+        </div>
+        <button class="b sm" onclick="editarMeu(${i})">✎</button>
+        <button class="b sm" onclick="delMeu(${i})">×</button>
+      </div>
+      <div class="chips" style="margin:9px 0 0">
+        ${qts.map(q=>`<button class="chip" onclick="quickAdd(${i},${q})">+ ${q===0.5?'½':(q===0.75?'¾':q)} porção</button>`).join('')}
+      </div></div>`}).join('');
+}
+let editIdx=-1;
+function editarMeu(i){
+  const f=S.meus[i]; editIdx=i;
+  $('me-tit').textContent='Editando: '+f[0];
+  $('me-nome').value=f[0];$('me-por').value=f[1];$('me-kcal').value=f[2];
+  $('me-p').value=f[3];$('me-c').value=f[4];$('me-g').value=f[5];
+  $('me-qt').value=(f[6]||[1]).join(', ');
+  try{$('me-nome').scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+}
+function limparEditor(){editIdx=-1;$('me-tit').textContent='Novo alimento';
+  ['me-nome','me-por','me-kcal','me-p','me-c','me-g','me-qt'].forEach(id=>$(id).value='')}
+function salvarMeu(){
+  const n=$('me-nome').value.trim(); if(!n){alert('Dê um nome ao alimento.');return}
+  const qs=($('me-qt').value||'1').split(',').map(x=>parseFloat(x.trim())).filter(x=>x>0);
+  const f=[n,$('me-por').value||'1 porção',+$('me-kcal').value||0,+$('me-p').value||0,
+           +$('me-c').value||0,+$('me-g').value||0,qs.length?qs:[1],'meu'];
+  if(editIdx>=0)S.meus[editIdx]=f; else S.meus.push(f);
+  limparEditor(); save(); renderComida();
+}
+function delMeu(i){if(confirm('Remover "'+S.meus[i][0]+'" da sua lista?')){S.meus.splice(i,1);save();renderComida()}}
+
+/* ---------- CARDÁPIO ---------- */
+function macrosOp(op){
+  return op.it.reduce((a,[n,q])=>{const f=acharMeu(n);
+    return f?{k:a.k+f[2]*q,p:a.p+f[3]*q,c:a.c+f[4]*q,g:a.g+f[5]*q}:a},{k:0,p:0,c:0,g:0});
+}
+function setModo(m){S.modo=m;save();renderCardapio()}
+function registrarOp(ri,oi){
+  const r=CARDAPIO[S.modo][ri],op=r.ops[oi];
+  op.it.forEach(([n,q])=>addMeu(n,q,r.n));
+  save();renderComida();renderHoje();
+}
+function registrarDiaTodo(){
+  const refs=CARDAPIO[S.modo];
+  if(!confirm('Registrar a opção A de todas as '+refs.length+' refeições em '+(fDia===hoje()?'hoje':br(fDia))+'?'))return;
+  refs.forEach((r,i)=>registrarOp(i,0));
+}
+function renderCardapio(){
+  $('md-normal').className='chip'+(S.modo==='normal'?' on':'');
+  $('md-plantao').className='chip'+(S.modo==='plantao'?' on':'');
+  const refs=CARDAPIO[S.modo],M=S.metas;
+  const tot=refs.reduce((a,r)=>{const m=macrosOp(r.ops[0]);return{k:a.k+m.k,p:a.p+m.p}},{k:0,p:0});
+  let h=`<div class="note ${Math.abs(tot.k-M.kcal)<250?'g':'w'}"><b>Opção A do dia inteiro: ${Math.round(tot.k)} kcal · ${Math.round(tot.p)} g de proteína.</b>
+    Sua meta é ${M.kcal} kcal · ${M.prot} g. ${tot.k<M.kcal-150?'Sobra espaço para fruta, café com leite ou uma porção extra de salada.':(tot.k>M.kcal+150?'Um pouco acima — troque uma refeição pela opção mais leve.':'Dentro do alvo.')}</div>`;
+  h+=refs.map((r,ri)=>{
+    const ops=r.ops.map((op,oi)=>{const m=macrosOp(op);
+      return `<div class="sess" style="padding:11px;margin-bottom:7px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="flex:1">
+            <div class="t" style="font-size:13px">${op.n}</div>
+            <div class="mini">${Math.round(m.k)} kcal · P ${Math.round(m.p)} g · C ${Math.round(m.c)} g · G ${Math.round(m.g)} g</div>
+            <div class="mini" style="margin-top:3px;opacity:.8">${op.it.map(([n,q])=>(q!==1?(q===0.5?'½ ':(q===0.75?'¾ ':q+'× ')):'')+n.split(' — ')[0].split(' (')[0]).join(' + ')}</div>
+          </div>
+          <button class="b sm p" onclick="registrarOp(${ri},${oi})">+</button>
+        </div></div>`}).join('');
+    const m0=macrosOp(r.ops[0]);
+    return `<div class="card" style="padding:13px">
+      <h2 style="margin-bottom:8px"><span class="pill b">${r.h}</span> ${r.n}
+      <span class="mini" style="font-weight:400"> · alvo ~${Math.round(m0.k)} kcal, ${Math.round(m0.p)} g P</span></h2>
+      ${ops}</div>`}).join('');
+  if(S.modo==='plantao')h+=`<div class="card"><h2>Kit da mochila</h2><ul>
+    <li><b>2 potes de YoPRO</b> — 170 kcal e 30 g de proteína, aguentam horas fora da geladeira em bolsa térmica.</li>
+    <li><b>1–2 sachês de whey Dux</b> — dissolve em água em qualquer copo.</li>
+    <li><b>Castanhas em porção fechada</b> — porção contada, não pacote aberto. Pacote aberto em plantão vira 600 kcal.</li>
+    <li><b>1 fruta e 1 barra de proteína</b> — para a madrugada, quando a única coisa disponível é o que sobrou da copa.</li>
+    </ul><p class="mini">A lógica: em plantão você não decide o que comer, decide o que <b>levou</b>. Todo o resto é o que o hospital oferecer — e aí a escolha já foi feita por outra pessoa.</p></div>`;
+  $('cardapio').innerHTML=h;
+}
+function limparDia(){if(confirm('Apagar todos os registros de '+(fDia===hoje()?'hoje':br(fDia))+'?')){S.comida[fDia]=[];save();renderComida();renderHoje()}}
+
+function renderComida(){
+  const M=S.metas,t=totaisDia(fDia);
+  renderCardapio(); renderMeus();
+  $('f-data').textContent=fDia===hoje()?'Hoje':br(fDia);
+  $('f-kcal').textContent=Math.round(t.kcal);$('f-p').textContent=Math.round(t.p);
+  $('f-c').textContent=Math.round(t.c);$('f-g').textContent=Math.round(t.g);
+  $('f-kcalm').textContent=M.kcal;$('f-pm').textContent=M.prot;$('f-cm').textContent=M.carb;$('f-gm').textContent=M.gord;
+  $('e-prot').textContent=M.prot;
+  const bar=$('f-bar');bar.style.width=Math.min(100,t.kcal/M.kcal*100)+'%';
+  bar.style.background=t.kcal>M.kcal*1.1?'var(--bad)':(t.kcal>M.kcal?'var(--warn)':'var(--acc)');
+  const kp=t.p*4,kc=t.c*4,kg=t.g*9,ks=kp+kc+kg;
+  $('f-mb').innerHTML=ks>0?`<span style="width:${kp/ks*100}%;background:#0f6e4f">P</span><span style="width:${kc/ks*100}%;background:#1d4ed8">C</span><span style="width:${kg/ks*100}%;background:#a45309">G</span>`:'';
+  const falta=M.prot-t.p;
+  $('f-msg').innerHTML=t.kcal===0?'Nada registrado ainda.':
+    (falta>0?`Faltam <b>${Math.round(falta)} g de proteína</b> (≈ ${Math.ceil(falta/24)} scoop(s) de whey ou ${(falta/32).toFixed(1)}× 100 g de frango). `:'<b>Proteína batida.</b> ')+
+    (t.kcal>M.kcal?`<span style="color:var(--bad)">${Math.round(t.kcal-M.kcal)} kcal acima da meta.</span>`:`Sobram ${Math.round(M.kcal-t.kcal)} kcal.`);
+  const l=S.comida[fDia]||[];
+  document.querySelector('#tab-f tbody').innerHTML=l.map((x,i)=>`<tr><td class="mini">${x.ref}</td><td>${x.nome}</td><td class="n">${Math.round(x.kcal)}</td><td class="n">${x.p.toFixed(0)}</td><td class="n"><button class="b sm" onclick="delFood(${i})">×</button></td></tr>`).join('');
+  $('f-vazio').textContent=l.length?'':'Sem registros neste dia.';
+  $('pratos-c').innerHTML=pratosHTML(true);
+}
+
+/* ---------- CORPO ---------- */
+function addPeso(){
+  const kg=parseFloat($('w-kg').value),d=$('w-dt').value||hoje();
+  if(!kg)return;
+  S.pesos=S.pesos.filter(x=>x.d!==d);S.pesos.push({d,kg});S.pesos.sort((a,b)=>a.d<b.d?-1:1);
+  S.perfil.peso=kg;calcMetas();$('w-kg').value='';save();render();
+}
+function addCintura(){const cm=parseFloat($('ci-cm').value);if(!cm)return;
+  S.cintura=S.cintura.filter(x=>x.d!==hoje());S.cintura.push({d:hoje(),cm});S.cintura.sort((a,b)=>a.d<b.d?-1:1);
+  $('ci-cm').value='';save();render()}
+function addTeste(){const v=parseFloat($('t-val').value);if(!v)return;
+  S.testes.push({d:hoje(),tipo:$('t-tipo').value,v});$('t-val').value='';save();render()}
+function addFoto(inp){
+  const f=inp.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=e=>{const img=new Image();img.onload=()=>{
+    const w=420,h=Math.round(img.height*w/img.width);
+    const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+    cv.getContext('2d').drawImage(img,0,0,w,h);
+    S.fotos.push({d:hoje(),src:cv.toDataURL('image/jpeg',0.55)});
+    if(S.fotos.length>24)S.fotos.shift();
+    save();render();};img.src=e.target.result};
+  rd.readAsDataURL(f);inp.value='';
+}
+function delFoto(i){if(confirm('Apagar foto?')){S.fotos.splice(i,1);save();render()}}
+let chP,chA;
+function renderCorpo(){
+  renderCalib();
+  // cintura
+  if(S.cintura.length){
+    const u=S.cintura[S.cintura.length-1],p0=S.cintura[0];
+    const rce=(u.cm/S.perfil.alt).toFixed(3);
+    $('ci-out').innerHTML=`<div class="g2" style="margin-top:10px">
+      <div class="kpi"><div class="v">${u.cm} cm</div><div class="s">${S.cintura.length>1?(u.cm-p0.cm>0?'+':'')+(u.cm-p0.cm).toFixed(1)+' cm desde o início':'primeira medida'}</div><div class="l">Cintura</div></div>
+      <div class="kpi"><div class="v" style="color:${rce<0.5?'var(--acc)':'var(--warn)'}">${rce}</div><div class="s">alvo &lt;0,500 → ${(S.perfil.alt*0.5).toFixed(1)} cm</div><div class="l">Cintura/estatura</div></div></div>`;
+  } else $('ci-out').innerHTML='';
+  // testes
+  const grp={};S.testes.forEach(t=>(grp[t.tipo]=grp[t.tipo]||[]).push(t));
+  const NOME={fcrep:'FC de repouso',cooper:'Cooper 12 min','5k':'5 km',flex:'Flexões'};
+  const UN={fcrep:'bpm',cooper:'m','5k':'min',flex:'reps'};
+  $('t-out').innerHTML=Object.keys(grp).length?Object.keys(grp).map(k=>{
+    const a=grp[k],u=a[a.length-1],p0=a[0],d=u.v-p0.v;
+    const bom=(k==='fcrep'||k==='5k')?d<0:d>0;
+    let extra='';
+    if(k==='cooper')extra=' · VO₂máx ≈ '+((u.v-504.9)/44.73).toFixed(1)+' ml/kg/min';
+    return `<div class="kpi" style="margin-bottom:7px"><div class="v">${u.v} <span style="font-size:13px;font-weight:600">${UN[k]}</span></div>
+      <div class="s">${a.length>1?`<span style="color:${bom?'var(--acc)':'var(--warn)'}">${d>0?'+':''}${d.toFixed(1)} desde ${br(p0.d)}</span>`:'primeira medida '+br(u.d)}${extra}</div>
+      <div class="l">${NOME[k]}</div></div>`}).join(''):'<p class="mini">Nenhum teste ainda. Faça hoje a FC de repouso — é a linha de base mais fácil e a que muda mais rápido.</p>';
+  // fotos
+  $('fotos').innerHTML=S.fotos.map((f,i)=>`<figure><img src="${f.src}" alt=""><button onclick="delFoto(${i})">×</button><figcaption>${br(f.d)}</figcaption></figure>`).join('');
+  // histórico
+  document.querySelector('#tab-h tbody').innerHTML=S.hist.length?S.hist.slice().reverse().map(h=>`<tr><td>${br(h.inicio)}</td><td class="n">${h.nivel}</td><td class="n">${h.corridas}/2 C<br>${h.forcas}/2 F</td><td class="mini">${h.dec}</td></tr>`).join(''):'<tr><td colspan="4" class="mini">Nenhum microciclo fechado ainda.</td></tr>';
+  // gráficos
+  if(typeof Chart==='undefined')return;
+  const E=ema(S.pesos,0.25);
+  if(chP)chP.destroy();
+  chP=new Chart($('ch-peso'),{type:'line',data:{labels:S.pesos.map(x=>br(x.d)),datasets:[
+    {label:'Pesagem',data:S.pesos.map(x=>x.kg),borderColor:'#c9c9c4',backgroundColor:'transparent',pointRadius:2,borderWidth:1,tension:0},
+    {label:'Tendência',data:E.map(x=>+x.v.toFixed(2)),borderColor:'#0f6e4f',backgroundColor:'rgba(15,110,79,.08)',fill:true,tension:.35,pointRadius:0,borderWidth:2.5},
+    {label:'Meta',data:S.pesos.map(()=>S.perfil.meta),borderColor:'#a45309',borderDash:[5,5],pointRadius:0,borderWidth:1.5,fill:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10,font:{size:10}}}},scales:{y:{beginAtZero:false},x:{ticks:{maxTicksLimit:7,font:{size:9}}}}}});
+  if(chA)chA.destroy();
+  const H=S.hist.slice(-12);
+  chA=new Chart($('ch-ader'),{type:'bar',data:{labels:H.map(h=>br(h.inicio)),datasets:[
+    {label:'Corridas',data:H.map(h=>h.corridas),backgroundColor:'#0f6e4f'},
+    {label:'Força',data:H.map(h=>h.forcas),backgroundColor:'#1d4ed8'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10,font:{size:10}}}},scales:{y:{beginAtZero:true,max:2,ticks:{stepSize:1}}}}});
+}
+
+/* ---------- HOJE ---------- */
+function renderHoje(){
+  const p=S.perfil,M=S.metas,m=S.micro,t=tendencia();
+  const pesoAtual=S.pesos.length?S.pesos[S.pesos.length-1].kg:p.peso;
+  $('hdr-t').textContent='Semana '+m.nivel+' · '+CORRIDA[m.nivel-1].f;
+  $('hdr-s').textContent=`${pesoAtual} kg → ${p.meta} kg · ${M.kcal} kcal · ${M.prot} g proteína`;
+  const tot=m.sess.filter(s=>s.tipo!=='bonus'),feitos=tot.filter(s=>s.st==='feito').length;
+  $('k-sem').textContent=m.nivel+'/16';
+  $('k-ader').textContent=feitos+'/'+tot.length;
+  $('k-peso').textContent=(t?t.atual.toFixed(1):pesoAtual)+' kg';
+  $('k-peso-s').textContent=t?(t.kgSem>0?'+':'')+t.kgSem.toFixed(2)+' kg/sem':'sem tendência';
+  const c=totaisDia(hoje());
+  $('k-kcal').textContent=Math.round(c.kcal);
+  $('k-kcal-s').textContent=Math.round(M.kcal-c.kcal)+' restantes · P '+Math.round(c.p)+'/'+M.prot;
+
+  const d=dias(m.inicio,hoje());
+  $('mc-dia').textContent='dia '+(d+1)+' de 7';
+  $('mc-info').innerHTML=`Início <b>${br(m.inicio)}</b> · fecha em <b>${br(addD(m.inicio,7))}</b> · rodando a <b>semana ${m.nivel}</b> (${CORRIDA[m.nivel-1].f}). Faça as 4 sessões em <b>qualquer ordem</b> dentro dos 7 dias — só não emende duas corridas em dias seguidos antes da semana 9.
+  <br><br><b>Você só precisa marcar o que fez.</b> O que ficar em branco conta como não feito no fechamento, automaticamente. O botão “✕ Não deu” é opcional e serve para registrar o motivo.`;
+  $('sessoes').innerHTML=m.sess.map((s,i)=>{
+    const cl=s.st==='feito'?'done':(s.st==='perdido'?'skip':'');
+    const bd=s.st==='feito'?`<span class="pill ok">feito ${br(s.data)}${s.rpe?' · RPE '+s.rpe:''}</span>`:(s.st==='perdido'?`<span class="pill no">não feito · ${s.mot}</span>`:'');
+    return `<div class="sess ${cl}"><div class="t">${s.t} ${bd}</div><div class="d">${s.d}</div>
+      <div class="acts"><button class="b sm ${s.st==='feito'?'p':''}" onclick="marcar(${i},'feito')">✓ Fiz</button>
+      <button class="b sm" onclick="marcar(${i},'perdido')">✕ Não deu</button></div></div>`}).join('');
+
+  let al='';const restam=7-d,pend=tot.filter(s=>!s.st).length;
+  if(pend>restam&&restam>0)al+=`<div class="note w"><b>Restam ${restam} dia(s) e ${pend} sessão(ões).</b> Prioridade quando aperta: Corrida A → Força A → Corrida B → Força B. Não tente encaixar tudo; o plano se ajusta sozinho ao fechar.</div>`;
+  if(m.sess.filter(s=>s.tipo==='corrida'&&s.st==='perdido').length===2)al+=`<div class="note w">As duas corridas ficaram para trás. Ao fechar, o plano segura ou regride uma semana — é proteção, não retrocesso.</div>`;
+  if(feitos===tot.length)al+=`<div class="note g">Microciclo completo. Ao fechar, você avança para a semana ${Math.min(16,m.nivel+1)}.</div>`;
+  $('mc-alerta').innerHTML=al;
+
+  // sono / plantão
+  const sh=S.sono[hoje()];
+  $('q-sono').value=sh!==undefined?sh:'';
+  const ehP=S.plantao.includes(hoje());
+  const bp=$('q-plant');bp.textContent=ehP?'✓ Plantão marcado':'Marcar plantão';bp.className='b w100'+(ehP?' p':'');
+  let qm='';
+  const ontemP=S.plantao.includes(addD(hoje(),-1));
+  if(ehP||ontemP)qm+=`<div class="note w"><b>${ehP?'Dia de plantão':'Pós-plantão'}.</b> Hoje não se corre. Se sobrar disposição, faça a sessão bônus (caminhada 40 min) ou a versão mínima da força. Sessões perdidas por plantão recebem tratamento diferente no fechamento.</div>`;
+  if(sh!==undefined&&sh<6)qm+=`<div class="note r"><b>Menos de 6 h de sono.</b> Troque a corrida planejada por caminhada. Restrição de sono piora controle neuromuscular e desloca a perda de peso para massa magra — no estudo de Nedeltcheva, dormir 5,5 h em vez de 8,5 h reduziu a fração de gordura perdida em cerca de 55%, com o mesmo déficit calórico.</div>`;
+  $('q-msg').innerHTML=qm;
+  $('pratos-h').innerHTML=pratosHTML(false);
+
+  // próxima refeição do cardápio, pelo horário
+  const modo=(ehP||ontemP)?'plantao':S.modo;
+  const refs=CARDAPIO[modo];
+  const agora=new Date().getHours()*60+new Date().getMinutes();
+  let idx=refs.findIndex(r=>{const hm=r.h.match(/^(\d{2}):(\d{2})$/);
+    return hm?(+hm[1]*60+ +hm[2])>=agora-45:false});
+  if(idx<0)idx=modo==='plantao'?Math.min(refs.length-1,Math.floor(agora/240)):refs.length-1;
+  const r=refs[idx];
+  $('prox-tit').innerHTML=`Próxima refeição <span class="pill b">${r.h}</span> ${r.n}${modo==='plantao'?' <span class="pill w">plantão</span>':''}`;
+  $('prox-ref').innerHTML=r.ops.map((op,oi)=>{const mm=macrosOp(op);
+    return `<div class="sess" style="padding:11px;margin-bottom:7px"><div style="display:flex;gap:8px;align-items:center">
+      <div style="flex:1"><div class="t" style="font-size:13px">${op.n}</div>
+      <div class="mini">${Math.round(mm.k)} kcal · P ${Math.round(mm.p)} g</div></div>
+      <button class="b sm p" onclick="S.modo='${modo}';registrarOp(${idx},${oi})">+</button></div></div>`}).join('');
+}
+
+/* ---------- PLANO ---------- */
+function renderPlano(){
+  const m=S.micro,p=S.perfil;
+  $('c-atual').textContent='semana '+m.nivel+' — '+CORRIDA[m.nivel-1].f;
+  document.querySelector('#tab-c tbody').innerHTML=CORRIDA.map(w=>{
+    const st=w.s<m.nivel?'<span class="pill ok">✓</span>':(w.s===m.nivel?'<span class="pill b">agora</span>':'');
+    return `<tr style="${w.s===m.nivel?'background:var(--acc2)':''}"><td><b>${w.s}</b><br>${st}</td><td>${w.a}</td><td>${w.b==='=A'?'igual à A':w.b}</td><td class="n">${w.m}</td></tr>`}).join('');
+  const fcm=Math.round(208-0.7*p.idade);$('fcmax').textContent=fcm;
+  $('zonas').innerHTML=[['Z1 regenerativo',50,60,'Conversa fácil'],['Z2 base aeróbia',60,70,'Frases completas'],['Z3 limiar',70,80,'Frases curtas'],['Z4 forte',80,90,'Palavras soltas']]
+    .map(z=>`<tr><td><b>${z[0]}</b></td><td>${Math.round(fcm*z[1]/100)}–${Math.round(fcm*z[2]/100)}</td><td>${z[3]}</td></tr>`).join('');
+  ['A','B'].forEach(k=>{
+    document.querySelector('#tab-f'+k.toLowerCase()+' tbody').innerHTML=FORCA[k].map(e=>{
+      const key=e[0].replace(/'/g,''),v=S.cargas[key]||'';
+      return `<tr><td>${e[0]}</td><td class="n">${e[1]}</td><td class="n"><input style="width:64px;text-align:right;padding:6px" type="number" step="2.5" inputmode="decimal" value="${v}" onchange="S.cargas['${key}']=this.value;save()"></td><td class="n">${e[2]?`<button class="b sm" onclick="bump('${key}',${e[2]})">+${e[2]}</button>`:''}</td></tr>`}).join('');
+  });
+  renderCarga();
+}
+function bump(k,inc){S.cargas[k]=(parseFloat(S.cargas[k])||0)+inc;save();renderPlano()}
+
+/* ---------- CONFIG ---------- */
+function salvarConf(){
+  S.perfil={idade:+$('c-idade').value,alt:+$('c-alt').value,peso:+$('c-peso').value,
+    meta:+$('c-meta').value,fator:+$('c-fat').value,def:+$('c-def').value,prot:+$('c-prot').value};
+  calcMetas();save();render();
+}
+function renderConf(){
+  const p=S.perfil,M=S.metas;
+  $('c-idade').value=p.idade;$('c-alt').value=p.alt;$('c-peso').value=p.peso;
+  $('c-meta').value=p.meta;$('c-fat').value=p.fator;$('c-def').value=p.def;$('c-prot').value=p.prot||2.2;
+  $('teto-msg').innerHTML=p.def>M.tetoDef
+    ? `<div class="note w" style="margin:0"><b>Acima do teto.</b> Com ~${Math.round(p.peso*0.25)} kg de gordura corporal, o tecido adiposo consegue fornecer cerca de <b>${M.tetoDef} kcal/dia</b> (estimativa de Alpert: ~31 kcal por kg de gordura). Um déficit de ${p.def} kcal passa disso — a diferença tende a sair de massa magra.</div>`
+    : `<div class="note g" style="margin:0">Déficit de ${p.def} kcal está dentro do teto estimado de <b>${M.tetoDef} kcal/dia</b> que sua gordura corporal consegue fornecer. Esse teto cai conforme você emagrece — revise a cada 5 kg perdidos.</div>`;
+  const imc=(p.peso/Math.pow(p.alt/100,2)).toFixed(1);
+  const t=tendencia();
+  const ritmo=t&&t.kgSem<-0.05?Math.abs(t.kgSem):p.def*7/KCAL_KG;
+  const sem=Math.max(0,Math.ceil((p.peso-p.meta)/ritmo));
+  $('conf-out').innerHTML=`<div class="g4">
+    <div class="kpi"><div class="v">${M.tmb}</div><div class="l">TMB</div></div>
+    <div class="kpi"><div class="v">${M.get}</div><div class="l">Gasto total</div></div>
+    <div class="kpi"><div class="v">${M.kcal}</div><div class="l">Meta diária</div></div>
+    <div class="kpi"><div class="v">${imc}</div><div class="l">IMC</div></div></div>
+    <div class="note">Macros: <b>${M.prot} g proteína</b> · ${M.carb} g carboidrato · ${M.gord} g gordura.<br>
+    No ritmo ${t&&t.kgSem<-0.05?'<b>real medido</b>':'<b>previsto</b>'} de ${ritmo.toFixed(2)} kg/semana, faltam cerca de <b>${sem} semanas</b> até ${p.meta} kg.</div>`;
+  try{const b=new Blob([JSON.stringify(S)]).size;
+    $('stor').textContent='Uso atual: '+(b/1024).toFixed(0)+' KB de ~5 MB disponíveis · '+S.fotos.length+' foto(s).'}catch(e){}
+}
+function exportar(){
+  const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='protocolo_'+hoje()+'.json';a.click();
+}
+function importar(inp){
+  const f=inp.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=e=>{try{const o=JSON.parse(e.target.result);
+    if(!o.perfil)throw 0;
+    if(confirm('Substituir todos os dados deste aparelho pelo backup?')){S=o;calcMetas();save();location.reload()}
+  }catch(err){alert('Arquivo inválido.')}};
+  rd.readAsText(f);inp.value='';
+}
+
+/* ---------- RENDER / NAV ---------- */
+function render(){autoFechar();renderHoje();renderPlano();renderComida();renderCorpo();renderConf();save()}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['hoje','plano','comida','corpo','mais'].forEach(t=>$('p-'+t).classList.toggle('hide',t!==b.dataset.p));
+  window.scrollTo(0,0);
+  if(b.dataset.p==='corpo')renderCorpo();
+});
+document.querySelectorAll('#sub-plano .chip').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#sub-plano .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['corrida','forca','carga'].forEach(t=>$('s-'+t).classList.toggle('hide',t!==b.dataset.s));
+});
+document.querySelectorAll('#sub-comida .chip').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#sub-comida .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['cardapio','diario','meus'].forEach(t=>$('s-'+t).classList.toggle('hide',t!==b.dataset.s));
+});
+$('w-dt').value=hoje();
+if(!S.metas)calcMetas();
+render();
+try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
+</script>
+</body>
+</html>
