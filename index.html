@@ -86,6 +86,7 @@ summary{font-weight:700;font-size:14px;cursor:pointer}
 
 <!-- ============ HOJE ============ -->
 <section id="p-hoje">
+  <div id="sync-aviso"></div>
   <div class="g4" style="margin-bottom:12px">
     <div class="kpi"><div class="v" id="k-sem">–</div><div class="l">Semana corrida</div></div>
     <div class="kpi"><div class="v" id="k-ader">–</div><div class="l">Microciclo</div></div>
@@ -410,8 +411,31 @@ summary{font-weight:700;font-size:14px;cursor:pointer}
     <p class="mini">Isto é um plano de condicionamento, não prescrição clínica individualizada. Você conhece as ressalvas melhor que eu.</p>
   </details>
 
-  <details><summary>Backup e sincronização entre aparelhos</summary>
-    <p class="mini">Os dados ficam no armazenamento local <b>deste</b> aparelho. Para levar do celular ao computador (ou vice-versa): exporte aqui, e importe no outro.</p>
+  <details open><summary>Sincronizar celular e computador</summary>
+    <p class="mini" style="margin-top:8px">Seus dados vão para um <b>gist privado</b> da sua conta GitHub. Fotos de progresso e o token <b>nunca</b> são enviados — ficam só no aparelho.</p>
+    <div class="stack" style="margin-top:10px">
+      <div><label>Token do GitHub (escopo “gist”)</label><input id="sy-token" type="password" placeholder="ghp_…" autocomplete="off"></div>
+      <div><label>ID do gist (cole aqui no 2º aparelho)</label><input id="sy-gist" placeholder="deixe vazio no 1º aparelho" autocomplete="off"></div>
+      <button class="b w100" onclick="salvarCredenciais()">Salvar credenciais neste aparelho</button>
+      <button class="b p w100" id="sy-env" onclick="enviarSync()">Enviar deste aparelho</button>
+      <button class="b w100" id="sy-bai" onclick="baixarSync()">Baixar para este aparelho</button>
+    </div>
+    <div id="sy-status"></div>
+    <h3>Como criar o token</h3>
+    <ol style="padding-left:19px">
+      <li style="font-size:13px;margin:4px 0">No GitHub: <b>Settings → Developer settings → Personal access tokens → Tokens (classic)</b> → <b>Generate new token (classic)</b>.</li>
+      <li style="font-size:13px;margin:4px 0">Marque <b>apenas</b> a caixa <code>gist</code>. Nenhuma outra.</li>
+      <li style="font-size:13px;margin:4px 0">Expiração: escolha o prazo que preferir. Quando vencer, o app avisa com erro 401 e você gera outro.</li>
+      <li style="font-size:13px;margin:4px 0">Copie o token, cole acima e toque em <b>Salvar credenciais</b>.</li>
+      <li style="font-size:13px;margin:4px 0">Neste primeiro aparelho, toque em <b>Enviar</b> — o app cria o gist e mostra o ID.</li>
+      <li style="font-size:13px;margin:4px 0">No segundo aparelho, cole o <b>mesmo token</b> e o <b>ID do gist</b>, e toque em <b>Baixar</b>.</li>
+    </ol>
+    <p class="mini"><b>Rotina:</b> terminou de usar num aparelho, toque em <b>Enviar</b>. Ao abrir no outro, um aviso aparece na aba Hoje se houver versão mais nova. Não há sincronização silenciosa de propósito — é onde esse tipo de sistema costuma apagar dados sem avisar.</p>
+    <p class="mini"><b>Segurança:</b> o token fica guardado neste aparelho. Como tem só o escopo <code>gist</code>, o pior caso é alguém ler ou alterar seus gists — não dá acesso a repositórios nem à conta. Se perder o celular, revogue o token na mesma tela em que o criou.</p>
+  </details>
+
+  <details><summary>Backup manual em arquivo</summary>
+    <p class="mini">Alternativa sem depender de rede: exporte o arquivo aqui e importe no outro aparelho.</p>
     <div class="stack" style="margin-top:9px">
       <button class="b w100" onclick="exportar()">Baixar backup (.json)</button>
       <button class="b w100" onclick="document.getElementById('imp').click()">Importar backup</button>
@@ -446,6 +470,9 @@ const addD=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return 
 const br=d=>d?d.slice(8,10)+'/'+d.slice(5,7):'—';
 const $=id=>document.getElementById(id);
 const KCAL_KG=7700; // densidade energética aproximada do tecido adiposo
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const agora=()=>new Date().toISOString();
+const dtBR=s=>s?new Date(s).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'nunca';
 
 /* ---------- PLANO DE CORRIDA ---------- */
 const CORRIDA=[
@@ -602,7 +629,8 @@ if(!S){
      nivel:1,micro:{inicio:hoje(),nivel:1,sess:novasSessoes(1)},hist:[],
      comida:{},pratos:[],meus:JSON.parse(JSON.stringify(MEUS_DEFAULT)),modo:'normal',
      pesos:[{d:hoje(),kg:90}],cintura:[],sono:{},plantao:[],dor:[],testes:[],cargas:{},fotos:[],
-     calib:{ajuste:0,ultima:null,log:[]},inicioDeficit:hoje()};
+     calib:{ajuste:0,ultima:null,log:[]},inicioDeficit:hoje(),
+     sync:{token:'',gistId:'',ultimoEnvio:null,ultimoRecebimento:null},atualizadoEm:agora()};
   if(antigo){ // migra o que der do app anterior
     if(antigo.perfil)S.perfil=Object.assign(S.perfil,antigo.perfil);
     if(antigo.pesos)S.pesos=antigo.pesos; if(antigo.comida)S.comida=antigo.comida;
@@ -611,7 +639,19 @@ if(!S){
   }
   calcMetas();save();
 }
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Armazenamento cheio. Apague algumas fotos de progresso em Corpo.')}}
+/* assinatura do conteúdo: só carimba nova data quando algo realmente mudou,
+   senão abrir o app já marcaria este aparelho como "mais recente" que o outro */
+function semVoláteis(){const {fotos,sync,atualizadoEm,...r}=S;return r}
+let assinaturaAnterior=null;
+function save(){
+  try{
+    const a=JSON.stringify(semVoláteis());
+    if(assinaturaAnterior!==null&&a!==assinaturaAnterior)S.atualizadoEm=agora();
+    if(!S.atualizadoEm)S.atualizadoEm=agora();
+    assinaturaAnterior=a;
+    localStorage.setItem(KEY,JSON.stringify(S));
+  }catch(e){alert('Armazenamento cheio. Apague algumas fotos de progresso em Corpo.')}
+}
 function novasSessoes(n){
   const w=CORRIDA[n-1];
   return[
@@ -632,6 +672,8 @@ if(!S.v||S.v<3){
 }
 if(!S.meus)S.meus=JSON.parse(JSON.stringify(MEUS_DEFAULT));
 if(!S.modo)S.modo='normal';
+if(!S.sync)S.sync={token:'',gistId:'',ultimoEnvio:null,ultimoRecebimento:null};
+if(!S.atualizadoEm)S.atualizadoEm=agora();
 /* acrescenta alimentos novos sem sobrescrever os que você editou */
 if(!S.v||S.v<4){
   const tem=new Set(S.meus.map(x=>x[0]));
@@ -861,7 +903,7 @@ function pratosHTML(comDel){
   return S.pratos.map((p,i)=>{
     const t=p.itens.reduce((a,x)=>({k:a.k+x.kcal,p:a.p+x.p}),{k:0,p:0});
     return `<div class="sess" style="padding:11px;margin-bottom:7px"><div style="display:flex;gap:8px;align-items:center">
-      <div style="flex:1"><div class="t">${p.nome}</div><div class="mini">${Math.round(t.k)} kcal · P ${Math.round(t.p)} g · ${p.itens.length} itens</div></div>
+      <div style="flex:1"><div class="t">${esc(p.nome)}</div><div class="mini">${Math.round(t.k)} kcal · P ${Math.round(t.p)} g · ${p.itens.length} itens</div></div>
       <button class="b sm p" onclick="aplicarPrato(${i})">+ Add</button>
       ${comDel?`<button class="b sm" onclick="delPrato(${i})">×</button>`:''}
     </div></div>`}).join('');
@@ -891,8 +933,8 @@ function renderMeus(){
     return `<div class="card" style="padding:12px;margin-bottom:8px">
       <div style="display:flex;gap:8px;align-items:flex-start">
         <div style="flex:1">
-          <div style="font-weight:700;font-size:14px;line-height:1.3">${f[0]}</div>
-          <div class="mini">${f[1]} · ${f[2]} kcal · P ${f[3]} g · C ${f[4]} g · G ${f[5]} g${f[7]?' · <i>'+f[7]+'</i>':''}</div>
+          <div style="font-weight:700;font-size:14px;line-height:1.3">${esc(f[0])}</div>
+          <div class="mini">${esc(f[1])} · ${f[2]} kcal · P ${f[3]} g · C ${f[4]} g · G ${f[5]} g${f[7]?' · <i>'+esc(f[7])+'</i>':''}</div>
         </div>
         <button class="b sm" onclick="editarMeu(${i})">✎</button>
         <button class="b sm" onclick="delMeu(${i})">×</button>
@@ -988,7 +1030,7 @@ function renderComida(){
     (falta>0?`Faltam <b>${Math.round(falta)} g de proteína</b> (≈ ${Math.ceil(falta/24)} scoop(s) de whey ou ${(falta/32).toFixed(1)}× 100 g de frango). `:'<b>Proteína batida.</b> ')+
     (t.kcal>M.kcal?`<span style="color:var(--bad)">${Math.round(t.kcal-M.kcal)} kcal acima da meta.</span>`:`Sobram ${Math.round(M.kcal-t.kcal)} kcal.`);
   const l=S.comida[fDia]||[];
-  document.querySelector('#tab-f tbody').innerHTML=l.map((x,i)=>`<tr><td class="mini">${x.ref}</td><td>${x.nome}</td><td class="n">${Math.round(x.kcal)}</td><td class="n">${x.p.toFixed(0)}</td><td class="n"><button class="b sm" onclick="delFood(${i})">×</button></td></tr>`).join('');
+  document.querySelector('#tab-f tbody').innerHTML=l.map((x,i)=>`<tr><td class="mini">${esc(x.ref)}</td><td>${esc(x.nome)}</td><td class="n">${Math.round(x.kcal)}</td><td class="n">${x.p.toFixed(0)}</td><td class="n"><button class="b sm" onclick="delFood(${i})">×</button></td></tr>`).join('');
   $('f-vazio').textContent=l.length?'':'Sem registros neste dia.';
   $('pratos-c').innerHTML=pratosHTML(true);
 }
@@ -1167,6 +1209,94 @@ function renderConf(){
   try{const b=new Blob([JSON.stringify(S)]).size;
     $('stor').textContent='Uso atual: '+(b/1024).toFixed(0)+' KB de ~5 MB disponíveis · '+S.fotos.length+' foto(s).'}catch(e){}
 }
+/* ---------- SINCRONIZAÇÃO VIA GIST PRIVADO ---------- */
+const GIST_FILE='protocolo.json';
+function payloadSync(){const {fotos,sync,...r}=S;return r}
+async function gistApi(metodo,caminho,corpo){
+  const t=((S.sync&&S.sync.token)||'').trim();
+  if(!t)throw new Error('Cole primeiro o seu token do GitHub.');
+  const r=await fetch('https://api.github.com'+caminho,{method:metodo,
+    headers:{'Authorization':'Bearer '+t,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+    body:corpo?JSON.stringify(corpo):undefined});
+  if(!r.ok){
+    let extra='';
+    if(r.status===401)extra=' — token inválido, expirado, ou sem o escopo "gist".';
+    if(r.status===404)extra=' — gist não encontrado. Confira o ID, ou crie um novo.';
+    throw new Error('GitHub respondeu '+r.status+extra);
+  }
+  return r.json();
+}
+async function lerRemoto(){
+  if(!S.sync.gistId)return null;
+  const g=await gistApi('GET','/gists/'+S.sync.gistId);
+  const f=g.files&&g.files[GIST_FILE];
+  if(!f)return null;
+  const txt=f.truncated&&f.raw_url?await (await fetch(f.raw_url)).text():f.content;
+  return JSON.parse(txt);
+}
+async function criarGist(){
+  try{
+    const g=await gistApi('POST','/gists',{description:'Protocolo — dados de treino e nutrição',public:false,
+      files:{[GIST_FILE]:{content:JSON.stringify(payloadSync(),null,1)}}});
+    S.sync.gistId=g.id;S.sync.ultimoEnvio=agora();save();renderSync();
+    prompt('Gist criado. Copie este ID e cole no outro aparelho, junto com o mesmo token:',g.id);
+  }catch(e){alert('Falhou: '+e.message)}
+}
+async function enviarSync(){
+  const b=$('sy-env');b.disabled=true;b.textContent='Enviando…';
+  try{
+    if(!S.sync.gistId){await criarGist();return}
+    const rem=await lerRemoto();
+    if(rem&&rem.atualizadoEm&&S.atualizadoEm&&rem.atualizadoEm>S.atualizadoEm){
+      if(!confirm('A versão no servidor é MAIS RECENTE que a deste aparelho.\n\nServidor: '+dtBR(rem.atualizadoEm)+
+        '\nEste aparelho: '+dtBR(S.atualizadoEm)+'\n\nEnviar agora sobrescreve o que está lá. Continuar?')){return}
+    }
+    S.atualizadoEm=agora();
+    await gistApi('PATCH','/gists/'+S.sync.gistId,{files:{[GIST_FILE]:{content:JSON.stringify(payloadSync(),null,1)}}});
+    S.sync.ultimoEnvio=agora();localStorage.setItem(KEY,JSON.stringify(S));renderSync();
+    alert('Enviado. Agora abra o app no outro aparelho e toque em Baixar.');
+  }catch(e){alert('Falhou: '+e.message)}
+  finally{b.disabled=false;b.textContent='Enviar deste aparelho'}
+}
+async function baixarSync(){
+  const b=$('sy-bai');b.disabled=true;b.textContent='Baixando…';
+  try{
+    const rem=await lerRemoto();
+    if(!rem){alert('Nada encontrado nesse gist.');return}
+    if(rem.atualizadoEm&&S.atualizadoEm&&rem.atualizadoEm<S.atualizadoEm){
+      if(!confirm('A versão no servidor é MAIS ANTIGA que a deste aparelho.\n\nServidor: '+dtBR(rem.atualizadoEm)+
+        '\nEste aparelho: '+dtBR(S.atualizadoEm)+'\n\nBaixar apaga as alterações mais recentes daqui. Continuar?')){return}
+    }
+    const fotos=S.fotos,sync=S.sync;      // fotos e token nunca saem/entram pelo gist
+    S=rem;S.fotos=fotos||[];S.sync=sync;S.sync.ultimoRecebimento=agora();
+    calcMetas();localStorage.setItem(KEY,JSON.stringify(S));location.reload();
+  }catch(e){alert('Falhou: '+e.message)}
+  finally{b.disabled=false;b.textContent='Baixar para este aparelho'}
+}
+function salvarCredenciais(){
+  S.sync.token=$('sy-token').value.trim();
+  S.sync.gistId=$('sy-gist').value.trim();
+  save();renderSync();
+  alert(S.sync.token?'Credenciais salvas neste aparelho.':'Token removido deste aparelho.');
+}
+function renderSync(){
+  const s=S.sync||{};
+  $('sy-token').value=s.token||'';$('sy-gist').value=s.gistId||'';
+  $('sy-status').innerHTML=`<div class="mini" style="margin-top:9px">
+    Alterado neste aparelho: <b>${dtBR(S.atualizadoEm)}</b><br>
+    Último envio: <b>${dtBR(s.ultimoEnvio)}</b> · Último download: <b>${dtBR(s.ultimoRecebimento)}</b>
+    ${s.gistId?'<br>Gist: <code>'+esc(s.gistId)+'</code>':''}</div>`;
+}
+async function checarRemoto(){
+  if(!S.sync||!S.sync.token||!S.sync.gistId)return;
+  try{
+    const rem=await lerRemoto();
+    if(rem&&rem.atualizadoEm&&(!S.atualizadoEm||rem.atualizadoEm>S.atualizadoEm)){
+      $('sync-aviso').innerHTML=`<div class="note w"><b>Há uma versão mais recente no outro aparelho</b> (${dtBR(rem.atualizadoEm)}).
+      Este aparelho está em ${dtBR(S.atualizadoEm)}. <button class="b sm" onclick="baixarSync()">Baixar agora</button></div>`;
+    } else $('sync-aviso').innerHTML='';
+  }catch(e){}
+}
 function exportar(){
   const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
@@ -1182,7 +1312,7 @@ function importar(inp){
 }
 
 /* ---------- RENDER / NAV ---------- */
-function render(){autoFechar();renderHoje();renderPlano();renderComida();renderCorpo();renderConf();save()}
+function render(){autoFechar();renderHoje();renderPlano();renderComida();renderCorpo();renderConf();renderSync();save()}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   ['hoje','plano','comida','corpo','mais'].forEach(t=>$('p-'+t).classList.toggle('hide',t!==b.dataset.p));
@@ -1200,6 +1330,8 @@ document.querySelectorAll('#sub-comida .chip').forEach(b=>b.onclick=()=>{
 $('w-dt').value=hoje();
 if(!S.metas)calcMetas();
 render();
+checarRemoto();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checarRemoto()});
 try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
 </script>
 </body>
