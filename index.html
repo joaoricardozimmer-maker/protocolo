@@ -64,7 +64,7 @@ ul{margin:6px 0;padding-left:19px}li{margin:4px 0;font-size:13px}
 .macrobar{display:flex;height:20px;border-radius:7px;overflow:hidden;margin:9px 0;background:var(--line)}
 .macrobar>span{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
 .nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding-bottom:var(--pad)}
-.nav button{flex:1;border:0;background:none;padding:9px 2px 8px;font:inherit;font-size:10px;font-weight:600;color:var(--mut);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav button{flex:1;min-width:0;border:0;background:none;padding:9px 1px 8px;font:inherit;font-size:9.5px;font-weight:600;color:var(--mut);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .nav button.on{color:var(--acc)}
 .nav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
@@ -364,6 +364,30 @@ summary{font-weight:700;font-size:14px;cursor:pointer}
   </div>
 </section>
 
+<!-- ============ TUTORIA ============ -->
+<section id="p-tutoria" class="hide">
+  <div class="chips" id="sub-tut">
+    <button class="chip on" data-s="semana">Aula da semana</button>
+    <button class="chip" data-s="verao">Verão &amp; maratona</button>
+    <button class="chip" data-s="linha">O que vou sentir</button>
+    <button class="chip" data-s="nutri">Nutrição</button>
+    <button class="chip" data-s="perf">Performance</button>
+    <button class="chip" data-s="corrida">Corrida</button>
+    <button class="chip" data-s="cabeca">Cabeça</button>
+  </div>
+  <div id="t-semana"></div>
+  <div id="t-verao" class="hide"></div>
+  <div id="t-linha" class="hide"></div>
+  <div id="t-nutri" class="hide"></div>
+  <div id="t-perf" class="hide"></div>
+  <div id="t-corrida" class="hide"></div>
+  <div id="t-cabeca" class="hide"></div>
+  <div class="card">
+    <h2>Como ler as evidências daqui</h2>
+    <p class="mini">Cada afirmação vem com o tipo de estudo. A hierarquia importa: <b>revisão umbrella</b> &gt; <b>meta-análise de ECRs</b> &gt; <b>ECR isolado</b> &gt; <b>estudo pequeno / observacional</b> &gt; <b>extrapolação</b>. Onde a evidência é fraca ou não se aplica exatamente ao seu caso, está dito com todas as letras — inclusive quando isso contraria o que você gostaria de ouvir.</p>
+  </div>
+</section>
+
 <!-- ============ MAIS ============ -->
 <section id="p-mais" class="hide">
   <div class="card">
@@ -458,6 +482,7 @@ summary{font-weight:700;font-size:14px;cursor:pointer}
   <button data-p="plano"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Plano</button>
   <button data-p="comida"><svg viewBox="0 0 24 24"><path d="M3 2v7a3 3 0 003 3 3 3 0 003-3V2M6 2v7M17 2c-1.5 2-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-3-.5-5-2-7zM6 12v10M17 12v10"/></svg>Comida</button>
   <button data-p="corpo"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-8 4 5"/><path d="M3 21h18"/></svg>Corpo</button>
+  <button data-p="tutoria"><svg viewBox="0 0 24 24"><path d="M12 7v14M3 5a2 2 0 012-2h5a2 2 0 012 2v14a2 2 0 00-2-2H5a2 2 0 01-2-2zM21 5a2 2 0 00-2-2h-5a2 2 0 00-2 2v14a2 2 0 012-2h5a2 2 0 002-2z"/></svg>Aprender</button>
   <button data-p="mais"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.7 1.7 0 007.9 19a1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H2a2 2 0 110-4h.1A1.7 1.7 0 004.6 8a1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V2a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H22a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>Mais</button>
 </nav>
 
@@ -473,6 +498,7 @@ const KCAL_KG=7700; // densidade energética aproximada do tecido adiposo
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const agora=()=>new Date().toISOString();
 const dtBR=s=>s?new Date(s).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'nunca';
+let assinaturaAnterior=null; // precisa existir antes da migração, que já chama save()
 
 /* ---------- PLANO DE CORRIDA ---------- */
 const CORRIDA=[
@@ -621,6 +647,171 @@ const CARDAPIO={
  ]
 };
 
+/* ================= TUTORIA ================= */
+/* uma aula por semana do plano, amarrada ao microciclo */
+const AULAS=[
+ {t:'O que está acontecendo no seu sangue agora',c:`Nos primeiros dias de treino aeróbio o <b>volume plasmático expande</b>. Você vai notar hematócrito e hemoglobina levemente menores num hemograma — é diluição, não anemia. É a "pseudoanemia do atleta", e você provavelmente já viu isso em atleta no consultório sem pensar que ia acontecer com você.<br><br>O efeito prático: mais volume de ejeção por batimento, e a sensação de sufoco nos primeiros minutos de corrida diminui antes de qualquer mudança no músculo.`,e:'Fisiologia estabelecida'},
+ {t:'Por que a balança vai mentir esta semana',c:`Você começou a se mexer e a comer diferente. Glicogênio muscular carrega cerca de <b>3 g de água por grama</b>. Mudanças de carboidrato e de treino mexem nesse estoque, e a balança oscila 1-2 kg sem nenhuma gordura ter saído ou entrado.<br><br>É por isso que o app usa <b>média móvel exponencial</b> e não a pesagem do dia. Olhe a linha, não o ponto.`,e:'Fisiologia estabelecida'},
+ {t:'A dieta certa é a que você consegue seguir',c:`O ensaio <b>DIETFITS</b> (JAMA 2018) randomizou 609 adultos para low-carb saudável ou low-fat saudável por 12 meses. Resultado: <b>nenhuma diferença de peso entre os grupos</b>. E mais — nem o padrão genotípico nem a secreção de insulina previram quem responderia melhor a qual dieta.<br><br>Traduzindo para você: não existe a dieta metabolicamente superior te esperando. Existe a que você sustenta. A sua é marmita + whey + iogurte porque é a que sobrevive ao plantão.`,e:'ECR, n=609, 12 meses'},
+ {t:'Distribuir proteína importa mais do que você imagina',c:`A meta-análise de <b>Morton (BJSM 2018)</b>, com 49 estudos e 1.863 participantes, encontrou platô de ganho de massa magra em torno de <b>1,62 g/kg/dia</b>, com intervalo de confiança até ~2,2. Daí vem a faixa de 1,6-2,2 g/kg.<br><br>Você está em 2,2 g/kg porque déficit agressivo empurra para o topo da faixa. Mas o total diário não é tudo: ~0,4 g/kg por refeição, 4-5 vezes ao dia, é o que satura a síntese proteica em cada refeição. Por isso o cardápio tem cinco refeições de 35-44 g e não duas de 90 g.`,e:'Meta-análise de ECRs'},
+ {t:'Jejum intermitente: o que o ensaio mostrou',c:`O <b>TREAT</b> (JAMA Internal Medicine 2020) randomizou 116 adultos para 16:8 ou três refeições estruturadas por 12 semanas. A perda no grupo do jejum foi de <b>0,94 kg</b> — e <b>não diferente</b> do controle.<br><br>O achado incômodo: houve diferença significativa no índice de massa magra apendicular, <b>desfavorável</b> ao jejum. Comprimir a janela sem cuidar de proteína e treino resistido pode custar músculo.<br><br>Se um dia o plantão te empurrar para jejum funcional, tudo bem. Mas não trate isso como estratégia superior — não é.`,e:'ECR, n=116, 12 semanas'},
+ {t:'Seu VO₂máx e o que esperar dele',c:`Destreinados melhoram <b>10-20% de VO₂máx em 8-12 semanas</b> de treino aeróbio. Você está na janela em que a curva é mais íngreme na vida toda — a mesma dose de treino nunca mais renderá tanto.<br><br>A ressalva honesta: cerca de <b>47% da resposta é hereditária</b> e a variação individual é enorme, de praticamente zero a mais de 1,0 L/min. Se você responder pouco, não é falta de esforço. Por isso o app acompanha FC de repouso e teste de Cooper, e não só a sensação.`,e:'Meta-análises; hereditariedade estimada'},
+ {t:'Por que quase tudo é devagar',c:`Em corredores recreativos, distribuição <b>polarizada</b> (~80% fácil / 20% forte) melhorou o tempo de 10K em <b>5,0%</b> contra 3,6% no treino focado em limiar.<br><br>O dado que explica o erro mais comum: corredores recreativos passam apenas <b>50-60% do volume em intensidade fácil</b>, enquanto atletas de elite ficam em 80%. Ou seja — o amador treina <i>mais forte</i> que o profissional, proporcionalmente, e progride menos.<br><br>Correr devagar não é preguiça. É a parte do treino que constrói mitocôndria e capilar.`,e:'ECRs em corredores recreativos'},
+ {t:'Deload: por que a semana leve é proposital',c:`Esta semana o volume cai de propósito. A razão é o descompasso entre sistemas: a <b>rede mitocondrial</b> já começou a remodelar nas primeiras 2 semanas, a <b>capilarização</b> atinge platô por volta de 4 semanas, mas tendão e osso adaptam em <b>meses</b>.<br><br>Seu pulmão vai pedir mais antes da sua tíbia estar pronta. Canelite e tendinopatia de iniciante nascem exatamente nessa lacuna. A semana leve não é perda de tempo — é o que permite que a semana 9 exista.`,e:'Fisiologia da adaptação'},
+ {t:'A fadiga diurna: o que muda e quanto',c:`Uma meta-análise de <b>70 estudos experimentais</b> de treino sobre energia e fadiga encontrou melhora média padronizada de <b>0,37</b> — e os autores apontam efeito maior que TCC ou tratamento farmacológico para vitalidade e fadiga.<br><br>Em estudos populacionais, adultos ativos têm chance menor de relatar baixa energia que sedentários (OR 0,61; IC 0,52-0,72).<br><br>Você deveria estar percebendo isto agora: a tarde de plantão pesando menos que pesava em julho. Não é impressão.`,e:'Meta-análise de 70 estudos'},
+ {t:'Humor não é efeito colateral, é efeito principal',c:`A revisão umbrella de <b>Singh (BJSM 2023)</b> reuniu meta-análises de ECRs sobre atividade física e saúde mental. Tamanhos de efeito medianos: <b>−0,43 para depressão</b> e <b>−0,42 para ansiedade</b>. Efeito médio, comparado a cuidado usual.<br><br>Para dimensionar: isso é da mesma ordem de grandeza de intervenções que você prescreveria sem hesitar. A diferença é que aqui o efeito colateral é ficar em forma.`,e:'Revisão umbrella de meta-análises'},
+ {t:'Testosterona e perda de peso',c:`Meta-análise com 44 estudos e 1.774 participantes: perda de peso por <b>dieta hipocalórica</b> aumentou testosterona total em média <b>2,87 nmol/L</b> (cirurgia bariátrica, 8,73). O determinante principal foi o <b>grau de perda de peso</b>.<br><br>Detalhe que interessa a você, aos 28 anos: comparados a homens acima de 40, os mais jovens ganharam <b>menos testosterona total, porém mais testosterona livre</b> para a mesma perda de peso. Testosterona livre é a fração biodisponível.<br><br>Isso é parte da explicação fisiológica para libido e disposição melhorarem antes de o espelho mudar.`,e:'Meta-análise, 44 estudos'},
+ {t:'Sono: o retorno mais rápido do investimento',c:`Meta-análises de ECRs mostram melhora consistente de qualidade de sono com exercício — diferença média de cerca de <b>−2,2 pontos no PSQI</b>. E, curiosamente, intervenções <b>curtas (≤3 meses)</b> reduziram mais os distúrbios do sono que as longas.<br><br>Para quem faz plantão, isso é a variável mais valiosa da lista: sono melhor não só reduz fadiga, como protege a composição corporal. Dormir 5,5 h em vez de 8,5 h com o mesmo déficit desloca a perda para massa magra.`,e:'Meta-análises de ECRs'},
+ {t:'Função erétil e exercício aeróbio',c:`Meta-análise de ECRs: exercício aeróbio melhorou o escore IIEF-EF em média <b>2,8 pontos</b> (IC 1,7-3,9). O efeito foi <b>proporcional à gravidade inicial</b> — 2,3 pontos na disfunção leve, 3,3 na moderada, 4,9 na grave. A revisão de Gerbild sugere ~160 min/semana por 6 meses, ou 40 min de intensidade moderada a vigorosa 4×/semana.<br><br><b>A ressalva honesta:</b> esses estudos são em homens <i>com</i> disfunção e fatores de risco — sedentarismo, obesidade, síndrome metabólica. Se você não tem queixa, não espere ganho mensurável em escore. O que você está comprando aqui é <b>prevenção</b>: função erétil é essencialmente um desfecho vascular, e o que protege endotélio protege ereção.`,e:'Meta-análise de ECRs — população com disfunção'},
+ {t:'Latência ejaculatória: separando o que tem evidência',c:`Você perguntou sobre isso, então vou ser direto sobre onde a evidência está e onde não está.<br><br><b>O que tem evidência:</b> treino de assoalho pélvico. Pastore (2014) acompanhou 40 homens com ejaculação precoce ao longo da vida (IELT ≤1 min) por 12 semanas de reabilitação do assoalho pélvico: 82,5% melhoraram, com IELT médio subindo de <b>31,7 s para 146,2 s</b>. Estudo pequeno, sem cegamento robusto — mas o efeito é grande e replicado em revisões posteriores.<br><br><b>O que NÃO tem evidência:</b> que correr e emagrecer aumentem latência ejaculatória em quem já está dentro do normal. Não existe esse dado. Se não há queixa, não há o que tratar.<br><br>Se houver queixa: contração de assoalho pélvico, 3 séries de 10 contrações de 5 s, diariamente. Custa nada e tem base.`,e:'Estudo pequeno (n=40), sem cegamento'},
+ {t:'Dieta mediterrânea e o desfecho que interessa',c:`O <b>PREDIMED</b> (NEJM), com 7.447 participantes de alto risco cardiovascular, encontrou redução relativa de cerca de <b>30%</b> em eventos cardiovasculares maiores com dieta mediterrânea suplementada com azeite extravirgem ou oleaginosas, contra dieta pobre em gordura.<br><br>Você é cardiologista, então a nuance importa: o artigo original de 2013 foi <b>retratado e republicado em 2018</b> após identificação de falhas de randomização em parte dos participantes. A reanálise manteve a conclusão, mas o episódio é um bom lembrete de que tamanho de amostra não compensa problema de alocação.<br><br>Aplicação prática: azeite, oleaginosas, peixe e vegetais não são detalhe estético do plano.`,e:'ECR retratado e republicado com reanálise'},
+ {t:'O que você construiu, e o que vem depois',c:`Dezesseis semanas. Vale olhar o que mudou em coisas que não aparecem no espelho: FC de repouso, tempo de Cooper, cintura, e a aderência nos gráficos.<br><br>Sobre manter: a mediana para um comportamento atingir 95% da automaticidade é de <b>66 dias</b>, com faixa de 18 a 254 (Lally, 2010). Você já passou disso. O achado mais útil desse estudo, porém, é outro: <b>falhar um único dia não quebrou a curva de nenhum participante</b>.<br><br>Foi exatamente assim que o motor adaptativo deste app foi desenhado. Uma semana perdida não te devolve à estaca zero — ela segura, ou recua um degrau. O sistema foi feito para sobreviver à sua escala, não para puni-la.`,e:'ECR de formação de hábito, n=96'}
+];
+
+const LINHA_TEMPO=[
+ {q:'Dias 1 a 7',cor:'b',its:[
+  ['Menos sufoco nos primeiros minutos','Expansão do volume plasmático acontece em poucos dias — mais volume de ejeção antes de qualquer adaptação muscular.','Fisiologia estabelecida'],
+  ['Sono um pouco melhor','Meta-análises mostram ~−2,2 pontos no PSQI; intervenções curtas reduziram mais distúrbio do sono que as longas.','Meta-análise de ECRs'],
+  ['Humor melhor no dia da sessão','Efeito agudo por sessão, antes de qualquer adaptação crônica.','Meta-análises'],
+  ['A balança não vai colaborar','Glicogênio carrega ~3 g de água por grama. Oscilação de 1-2 kg sem nada de gordura ter mudado.','Fisiologia estabelecida']]},
+ {q:'Semanas 2 a 4',cor:'b',its:[
+  ['Fadiga diurna cede','Melhora média padronizada de 0,37 em energia/fadiga em 70 estudos experimentais; efeito maior que TCC ou farmacoterapia para vitalidade.','Meta-análise, 70 estudos'],
+  ['FC de repouso começa a cair','Marcador mais sensível e mais precoce que peso ou VO₂máx.','Fisiologia estabelecida'],
+  ['Mitocôndria já está mudando','Parte substancial da remodelação mitocondrial (~14%) ocorre nas 2 primeiras semanas.','Estudos mecanísticos'],
+  ['Ainda NÃO virou hábito','Automaticidade mediana leva 66 dias. Nesta fase você ainda está decidindo conscientemente toda vez — e isso é normal, não fraqueza.','ECR, n=96']]},
+ {q:'Semanas 4 a 8',cor:'w',its:[
+  ['Roupa antes da balança','Capilarização atinge platô por volta de 4 semanas; composição corporal muda mais rápido que o peso total.','Fisiologia + meta-análises'],
+  ['Libido e disposição','Perda de peso por dieta aumentou testosterona total em ~2,87 nmol/L; abaixo dos 40 anos o ganho é maior em testosterona LIVRE — a fração biodisponível.','Meta-análise, 44 estudos'],
+  ['Humor e ansiedade','Tamanhos de efeito medianos de −0,43 (depressão) e −0,42 (ansiedade) contra cuidado usual.','Revisão umbrella'],
+  ['Corrida contínua começa a existir','Você sai do intervalado e passa a correr blocos de 20-30 min sem parar. É a mudança subjetiva mais marcante do plano inteiro.','Progressão do protocolo']]},
+ {q:'Semanas 8 a 12',cor:'ok',its:[
+  ['VO₂máx mensurável','10-20% de ganho em destreinados em 8-12 semanas. Ressalva: ~47% da resposta é hereditária e a variação individual é grande.','Meta-análises'],
+  ['Proteínas mitocondriais','Aumento no conteúdo de proteínas da cadeia transportadora de elétrons aparece por volta de 8 semanas.','Estudos mecanísticos'],
+  ['Função erétil (se houver fator de risco)','Exercício aeróbio melhora IIEF-EF em ~2,8 pontos, proporcionalmente à gravidade inicial. Sem queixa prévia, não espere ganho de escore — o valor aqui é prevenção vascular.','Meta-análise em população com disfunção'],
+  ['Perto do limiar do hábito','66 dias é a mediana para 95% de automaticidade. Por volta daqui o treino começa a puxar sozinho.','ECR, n=96']]},
+ {q:'Semanas 12 a 16 e depois',cor:'ok',its:[
+  ['5 km contínuos','Do "canso em 2-3 minutos" até correr 45 min sem parar, em quatro meses.','Progressão do protocolo'],
+  ['~8-10 kg de gordura a menos','No ritmo de 0,59 kg/semana, mantendo aderência razoável.','Cálculo a partir do déficit'],
+  ['Risco cardiovascular','Dieta mediterrânea reduziu eventos CV maiores em ~30% em população de alto risco. Você não está nessa população — está construindo para não estar.','ECR retratado e republicado'],
+  ['O que ninguém te avisa','A mudança que as pessoas mais relatam nesta fase não é estética: é a sensação de que o corpo deixou de ser um problema a gerenciar e virou algo que simplesmente funciona.','Relato clínico, não desfecho medido']]}
+];
+
+/* detalhamento por domínio da vida */
+const DOMINIOS=[
+ ['Energia e plantão','⚡',[
+  ['Semana 2-4','A tarde de plantão pesa menos. Melhora média padronizada de 0,37 em energia/fadiga em 70 estudos experimentais — os autores apontam efeito maior que TCC ou farmacoterapia para vitalidade.'],
+  ['Semana 4-8','O "bloco das 15h" encurta. Adultos ativos têm chance menor de relatar baixa energia que sedentários (OR 0,61).'],
+  ['Semana 8+','Pós-plantão de 24 h continua ruim — nenhum treino resolve privação de sono. Mas a recuperação no dia seguinte fica mais rápida.'],
+  ['Ressalva honesta','Se a fadiga não ceder até a semana 8, isso é sinal clínico, não falta de disciplina. Dose ferritina, TSH e vitamina D antes de concluir qualquer coisa.']]],
+ ['Sono','🌙',[
+  ['Primeira semana','Latência para pegar no sono costuma cair antes de qualquer outra coisa mudar.'],
+  ['Semana 2-6','Qualidade de sono melhora em torno de −2,2 pontos no PSQI em meta-análises. Intervenções curtas (≤3 meses) reduziram mais distúrbio do sono que as longas.'],
+  ['Cuidado','Corrida intensa nas 2-3 h antes de deitar atrapalha em parte das pessoas. Sessão leve não atrapalha. Teste em você.'],
+  ['O laço que importa','Sono ruim → pior partição de perda de peso: dormir 5,5 h em vez de 8,5 h com o mesmo déficit reduziu a fração de gordura perdida em ~55%. Sono não é recuperação, é parte da dieta.']]],
+ ['Humor e ansiedade','🧠',[
+  ['Mesmo dia','Efeito agudo por sessão, antes de qualquer adaptação crônica. Você vai notar já na primeira semana, nas horas seguintes ao treino.'],
+  ['Semana 4-8','Tamanhos de efeito medianos de −0,43 para depressão e −0,42 para ansiedade em revisão umbrella de meta-análises de ECRs, contra cuidado usual.'],
+  ['O mecanismo prático','Corrida em Z2 é uma das poucas atividades em que você não consegue checar mensagem nem pensar em paciente. Para residente, o valor pode estar tanto nisso quanto na fisiologia.'],
+  ['Ressalva','Efeito médio, não substituto de tratamento. Se houver sintomas relevantes, exercício entra como adjuvante — você sabe disso melhor que eu.']]],
+ ['Libido e função sexual','🔥',[
+  ['Semana 4-8','Perda de peso por dieta hipocalórica aumentou testosterona total em média 2,87 nmol/L em meta-análise de 44 estudos. Determinante principal: o grau de perda de peso.'],
+  ['Vantagem dos 28 anos','Homens abaixo de 40 ganharam menos testosterona total, porém mais testosterona LIVRE, para a mesma perda de peso. Livre é a fração biodisponível.'],
+  ['Função erétil','Exercício aeróbio melhora IIEF-EF em ~2,8 pontos, proporcionalmente à gravidade inicial (2,3 leve · 3,3 moderada · 4,9 grave). Sem queixa prévia, não espere ganho de escore — o valor é prevenção vascular.'],
+  ['Latência ejaculatória — o que NÃO tem evidência','Não existe dado de que correr e emagrecer aumentem latência em quem já está normal. O que tem evidência é treino de assoalho pélvico em quem tem ejaculação precoce: IELT de 31,7 s para 146,2 s em 12 semanas (n=40, sem cegamento). Se não há queixa, não há o que tratar.'],
+  ['O que provavelmente pesa mais','Sono, humor, energia e como você se enxerga sem camisa influenciam libido tanto quanto qualquer hormônio. Isso é observação clínica, não desfecho medido — mas você já viu isso no consultório.']]],
+ ['Corpo e espelho','🪞',[
+  ['Semana 1-3','Nada visível. Balança oscilando por água e glicogênio. Esta é a fase que mais gente abandona.'],
+  ['Semana 4-6','Rosto e pescoço afinam primeiro — costuma ser aqui que alguém comenta. O abdômen ainda não mudou.'],
+  ['Semana 8-12','Roupa antes da balança. Camisa no ombro, calça na cintura. Capilarização e composição corporal mudam mais rápido que o peso total.'],
+  ['Semana 16-24','Contorno de ombro e braço aparece — massa magra preservada pelo treino de força ficando visível conforme a gordura sai.'],
+  ['Carnaval (sem 27)','~15,5% de gordura: abdômen plano em pé, oblíquos aparecendo. Gomos definidos são 10-12% — isso é outro projeto, e não em 27 semanas.']]],
+ ['Cabeça e identidade','🎯',[
+  ['Semana 6','A crise previsível: novidade acabou, resultado desacelerou, decisão voltou a exigir esforço. É o ponto de maior risco de abandono do plano inteiro.'],
+  ['Semana 10 (≈66 dias)','Mediana para 95% de automaticidade. O treino começa a puxar sozinho — você percebe pela ausência de negociação interna.'],
+  ['Semana 12-16','A transição de "estou tentando" para "eu corro". É a mudança que mais prevê manutenção de longo prazo.'],
+  ['O dado que te protege','~50% param nos primeiros 6 meses. MAS 45,6% dos que abandonaram aos 6 meses estavam treinando de novo aos 12, e 61,4% dos que recaíram abandonaram uma única vez. Abandono quase nunca é terminal — é episódio.']]]
+];
+
+/* ---- projeção até o Carnaval e roteiro até a maratona ---- */
+const CARNAVAL='2027-02-09';
+const CENARIOS=[
+ ['100% — todas as semanas cumpridas','78,4 kg','15,4%','11,6 kg','ok'],
+ ['85% — realista com plantão','79,8 kg','16,7%','10,2 kg','ok'],
+ ['70% — semestre pesado','81,2 kg','18,0%','8,8 kg','w'],
+ ['50% — metade das semanas perdidas','83,4 kg','19,8%','6,6 kg','w']
+];
+const MARCOS_VERAO=[
+ ['03/10/26','sem 9','85 kg · ~21% de gordura','Primeira mudança que outras pessoas comentam. Rosto e pescoço afinam antes do abdômen — a gordura facial responde cedo.'],
+ ['21/11/26','sem 16','83 kg · ~19% de gordura','Fim do bloco de 16 semanas. Corre 45 min contínuos. Camisa cai diferente no ombro; a barriga ainda existe.'],
+ ['21/12/26','sem 20','81 kg · ~18% de gordura','Início do verão. Abdômen visivelmente menor de pé; sentado ainda dobra. Braços e ombros já com contorno.'],
+ ['09/01/27','sem 23','80 kg · ~17% de gordura','Meta original de peso atingida — três semanas antes do Carnaval.'],
+ ['09/02/27','sem 27','78-79 kg · ~15,5% de gordura','Carnaval. Abdômen plano em pé, oblíquos aparecendo, veia no antebraço. Sem gomos definidos — isso é 10-12%.']
+];
+const ROTEIRO=[
+ ['08/26 – 11/26','16 sem','Base: do zero a 45 min contínuos / 5 km','Você está aqui'],
+ ['11/26 – 01/27','8 sem','Consolidar 5 km · volume 20-25 km/semana','Sem correr atrás de tempo. Só acumular quilômetro fácil.'],
+ ['01/27 – 04/27','12 sem','Bloco de 10 km','Entra trabalho de limiar. Primeira prova de rua possível.'],
+ ['04/27 – 06/27','8 sem','Consolidar 10 km · volume 30-35 km/semana',''],
+ ['06/27 – 09/27','14 sem','Bloco de meia maratona','Longão chega a 18-20 km. Primeira meia por volta de setembro/2027.'],
+ ['09/27 – 11/27','10 sem','Base pós-meia · 40-45 km/semana','A fase que quase todo mundo pula — e é onde a maratona é ganha ou perdida.'],
+ ['11/27 – 03/28','18 sem','Bloco específico de maratona','Longões de 30-32 km, treino de ritmo, estratégia nutricional de prova.']
+];
+
+const MOD_NUTRI=[
+ ['DIETFITS — low-carb vs low-fat','ECR, n=609, 12 meses','609 adultos randomizados para low-carb ou low-fat <i>saudáveis</i> por 12 meses. <b>Sem diferença de peso.</b> Nem padrão genotípico nem secreção de insulina previram resposta.<br><br><b>Aplicação:</b> pare de procurar a dieta metabolicamente superior. A variável que decide é aderência. Sua dieta é construída em torno de marmita, whey e iogurte porque é a que sobrevive ao plantão — esse é o critério certo.'],
+ ['TREAT — jejum 16:8','ECR, n=116, 12 semanas','Jejum 16:8 contra três refeições estruturadas. Perda de 0,94 kg no grupo do jejum, <b>não diferente</b> do controle. E diferença significativa no índice de massa magra apendicular, <b>desfavorável ao jejum</b>.<br><br><b>Aplicação:</b> jejum é uma ferramenta de conveniência, não uma estratégia metabólica superior. Se usar, cuide de proteína e treino resistido — sem isso, parte do que sai é músculo.'],
+ ['PREDIMED — dieta mediterrânea','ECR retratado e republicado, n=7.447','Redução relativa de ~30% em eventos cardiovasculares maiores com dieta mediterrânea + azeite extravirgem ou oleaginosas, contra dieta pobre em gordura, em população de alto risco.<br><br><b>A nuance que importa:</b> o artigo de 2013 foi retratado e republicado em 2018 após falhas de randomização em parte dos participantes. A reanálise manteve a conclusão. Tamanho de amostra não compensa problema de alocação.<br><br><b>Aplicação:</b> azeite, oleaginosas, peixe e vegetais têm desfecho duro por trás, não são detalhe estético.'],
+ ['Proteína — quanto e como distribuir','Meta-análise, 49 estudos, n=1.863','Platô de ganho de massa magra em ~1,62 g/kg/dia, com IC até ~2,2 — a base da faixa 1,6-2,2 g/kg.<br><br>Distribuição importa além do total: ~0,4 g/kg por refeição, 4-5×/dia, satura a síntese proteica em cada refeição. Proteína com caseína antes de dormir aumenta modestamente a síntese noturna — daí o YoPRO na ceia.<br><br><b>Aplicação:</b> seus 198 g em cinco refeições de 35-44 g não é capricho de planilha.'],
+ ['O teto de oxidação de gordura','Modelo teórico, amplamente citado','O tecido adiposo libera energia a uma taxa finita — estimativa de ~31 kcal por kg de gordura corporal por dia (Alpert). Com ~23 kg de gordura, isso te dá ~700 kcal/dia.<br><br><b>A implicação que quase ninguém aplica:</b> esse teto <b>cai conforme você emagrece</b>. Aos 80 kg com 15% de gordura, ele já é ~370 kcal. O déficit que era seguro em agosto vira agressivo em dezembro — e é por isso que o app recalibra pela sua tendência real, e não pela equação.'],
+ ['Adaptação metabólica e pausa','ECR (MATADOR) e literatura de adaptação','Gasto energético cai durante a perda de peso por dois motivos: menos massa corporal para carregar, e adaptação metabólica além do previsto pela massa.<br><br>Déficit intermitente — blocos de déficit alternados com blocos em manutenção — parece atenuar essa adaptação e melhorar a retenção do resultado. Por isso o app sugere 1-2 semanas em manutenção após ~10 semanas contínuas.'],
+ ['Carboidrato: quando importa e quando não','Consenso ACSM/IOC','Para sessões abaixo de 60-75 min em Z2 — que é praticamente todo o seu plano até a semana 13 — o glicogênio muscular basal dá conta. <b>Você não precisa de gel, isotônico nem carboidrato intra-treino.</b> Isso só passa a valer em sessões acima de ~90 min, o que aparece no bloco de meia maratona em 2027.<br><br>O que importa agora é o <b>total diário</b>: seus 170 g sustentam a intensidade. Se a corrida começar a parecer pesada demais de forma consistente, o primeiro ajuste é carboidrato, não mais esforço.<br><br><b>Regra prática:</b> a refeição antes do treino, 2-3 h antes, com carboidrato de digestão fácil. Correr em jejum não acelera perda de gordura — o balanço de 24 h é que decide.'],
+ ['Gordura dietética: o piso não negociável','Literatura endócrina','Abaixo de ~0,5 g/kg/dia de gordura por períodos prolongados, a produção de hormônios esteroides sofre. Você está em 0,7 g/kg (63 g) — piso com margem.<br><br>Reduzir gordura é o atalho mais tentador para cortar calorias, porque ela é a mais densa (9 kcal/g). É também o corte que mais cobra: libido, humor e recuperação caem antes do peso.<br><br><b>Priorize:</b> azeite, oleaginosas, peixe, ovo inteiro. Gordura de qualidade não é onde economizar calorias — economize no arroz do refeitório.'],
+ ['Fibra: a alavanca de saciedade que ninguém usa','Meta-análises de saciedade','Saciedade em déficit é problema de <b>volume gástrico e densidade energética</b>, não de força de vontade. 400 g de vegetais custam ~80 kcal e ocupam mais estômago que 80 g de pão a 250 kcal.<br><br>Meta: <b>25-35 g de fibra/dia</b>. Sua dieta atual, baseada em marmita e laticínio, provavelmente fica em 15-20 g.<br><br><b>Correção barata:</b> uma salada pronta de 150 g no almoço e outra no jantar. Custa 60 kcal somadas e resolve metade do déficit de fibra — além de ser a única intervenção deste plano que melhora aderência sem exigir disciplina nenhuma.'],
+ ['Álcool: a conta completa','Literatura de balanço energético e SPM','Etanol tem <b>7 kcal/g</b> — mais perto de gordura que de carboidrato, e o app não consegue calcular pelos macros (por isso a divergência que você veria se conferisse a conta da cerveja).<br><br>Três efeitos somados: (1) as calorias em si; (2) supressão da síntese proteica muscular por horas após ingestão relevante; (3) piora da arquitetura do sono — especialmente supressão de REM — o que amplifica tudo que a privação de sono já faz com você em semana de plantão.<br><br><b>Posição prática:</b> não precisa zerar. Precisa aparecer no registro e sair da noite anterior a um treino que importa.'],
+ ['Creatina monoidratada','Position stand ISSN, centenas de ECRs','O suplemento com mais evidência acumulada em nutrição esportiva, e um dos mais baratos. <b>3-5 g/dia</b>, qualquer horário, sem necessidade de fase de saturação nem de ciclos.<br><br>Efeito: melhora desempenho em esforços de alta intensidade e repetidos, e favorece ganho de massa magra em conjunto com treino resistido. Espere <b>1-2 kg de ganho de peso nas primeiras semanas</b> — é água intracelular, não gordura. Saiba disso antes, ou a balança vai te assustar exatamente quando o app estiver calculando sua tendência.<br><br>Segurança: perfil bem estabelecido em indivíduos saudáveis. Não causa lesão renal em rim normal — só eleva creatinina sérica por ser precursora, o que você precisa lembrar se pedir exames.'],
+ ['Cafeína','Meta-análises','Auxílio ergogênico com evidência robusta para endurance. <b>3-6 mg/kg</b> cerca de 45-60 min antes — para 85 kg, algo entre 250 e 500 mg.<br><br>Ressalva que pesa mais no seu caso do que na média: meia-vida de 4-6 h. Cafeína depois das 14-15h em quem já tem sono comprometido por plantão troca um ganho de performance de 2-4% por uma noite pior. <b>Esse câmbio é ruim para você.</b><br><br>E há tolerância: se você já toma café o dia inteiro, o efeito agudo é bem menor do que os estudos mostram em não habituados.'],
+ ['Ferro e vitamina D: os dois exames que importam','Literatura de corredor','<b>Ferritina.</b> Corredores perdem ferro por hemólise de impacto, suor e perdas gastrointestinais. Ferritina baixa causa fadiga e queda de performance <b>antes</b> de haver anemia — hemoglobina normal não exclui. Se a fadiga não ceder na semana 6-8 como a linha do tempo prevê, dose ferritina antes de concluir que é falta de disciplina.<br><br><b>Vitamina D.</b> Deficiência é comum mesmo em país tropical, ainda mais em quem passa o dia em hospital. Associada a função muscular e risco de fratura por estresse.<br><br>Você tem acesso fácil a esses exames. Use.'],
+ ['Fome adaptativa: por que a semana 10 é a mais difícil','Literatura de leptina e regulação do apetite','Perda de gordura reduz leptina, o que aumenta sinalização de fome e reduz saciedade. É um sistema de defesa, não falta de caráter — e ele fica progressivamente mais barulhento conforme você emagrece.<br><br>Some a isso a queda de gasto energético e você tem a explicação fisiológica para o platô que costuma aparecer entre as semanas 8 e 12.<br><br><b>Contramedidas com base:</b> manter proteína alta, priorizar volume e fibra, dormir o possível, e usar a <b>pausa metabólica</b> — 1-2 semanas em manutenção. A pausa não é fraqueza, é a intervenção que o ensaio MATADOR testou.'],
+ ['O que decide se você mantém depois','Literatura de manutenção de peso','A estatística incômoda: a maioria das pessoas readquire boa parte do peso perdido em 1-5 anos. Os que mantêm compartilham alguns comportamentos — monitoramento continuado do peso, atividade física regular de volume alto, e padrão alimentar estável em vez de dietas cíclicas.<br><br><b>A implicação para o seu plano:</b> a corrida não é a ferramenta principal de emagrecimento — o déficit é. Mas a corrida é a principal ferramenta de <b>manutenção</b>, porque é o que sustenta gasto energético alto sem exigir restrição permanente.<br><br>Traduzindo: fevereiro de 2027 não é a linha de chegada. É quando o objetivo muda de perder para manter — e é aí que a maratona de 2028 vira útil, porque te dá razão para continuar treinando quando o motivo estético já foi resolvido.']
+];
+
+const MOD_CORRIDA=[
+ ['Cadência: o ajuste técnico com mais retorno','Estudos biomecânicos','Aumentar a cadência em <b>5-10%</b> reduz a carga em joelho e quadril, principalmente por diminuir o comprimento da passada e a oscilação vertical. É a intervenção técnica com melhor relação evidência/esforço para corredor iniciante.<br><br><b>Como:</b> conte os passos de um pé por 30 s e multiplique por 4. Se der abaixo de ~160 passos/min, tente subir para 165-170 usando um metrônomo ou música com BPM. Não force os 180 — esse número virou dogma sem base individual.<br><br>Cadência maior também reduz a chance de você aterrissar com o pé muito à frente do centro de massa, que é o mecanismo por trás de boa parte da dor anterior de joelho em iniciante.'],
+ ['Pisada e tênis: menos importante do que vendem','ECRs de prescrição de calçado','A prescrição de tênis por tipo de pisada (pronador/supinador/neutro) <b>não reduziu lesões</b> em ensaios militares e civis de grande porte. É uma das crenças mais firmes do meio e uma das piores sustentadas.<br><br><b>O que importa:</b> conforto. Estudos de "filtro de conforto" sugerem que escolher o calçado mais confortável entre opções reduz lesão melhor que qualquer classificação biomecânica.<br><br><b>Prático:</b> compre o que for confortável na loja, com espaço de um dedo na ponta, e troque a cada 600-800 km. Não gaste com palmilha de correção sem indicação clínica específica.'],
+ ['A regra dos 10% e o que ela esconde','Revisões de carga e lesão','A "regra dos 10%" (não aumentar volume semanal mais de 10%) é heurística, não lei — ensaios que a testaram isoladamente não mostraram redução clara de lesão.<br><br><b>O que a evidência sustenta melhor:</b> corredores novatos têm <b>2,5 a 5× mais risco de lesão</b> que experientes no mesmo volume semanal. O fator não é só quanto você corre, é <b>há quanto tempo o seu tecido conjuntivo vem sendo carregado</b>.<br><br>Por isso este plano leva 16 semanas para chegar a 45 min contínuos, e por isso o roteiro até a maratona tem fases de <b>consolidação</b> — semanas em que o volume não sobe. É lá que osso e tendão alcançam o pulmão.'],
+ ['O longão: por que ele existe','Fisiologia do endurance','O longão não é "a mesma corrida, mais tempo". Ele estimula coisas que sessões curtas não estimulam: densidade mitocondrial em fibras de contração lenta, capacidade de armazenar glicogênio, oxidação de gordura como combustível, e — crucialmente — <b>tolerância do tecido conjuntivo a carga repetida</b>.<br><br><b>Regra:</b> o longão deve ficar em torno de 25-30% do volume semanal, e ser feito em ritmo francamente confortável. O erro clássico é fazê-lo rápido demais, o que o transforma numa sessão de qualidade mal executada e compromete a semana inteira.<br><br>No seu plano ele só aparece de verdade a partir de 2027. Por ora, a corrida B da semana 14-16 é o embrião dele.'],
+ ['Correr no verão brasileiro','Diretrizes de termorregulação','Você vai atravessar dezembro, janeiro e fevereiro treinando — a pior janela térmica do ano, e justamente a que leva ao Carnaval.<br><br><b>O que muda:</b> em calor, a mesma velocidade custa mais frequência cardíaca (deriva cardiovascular). Se você treina por FC, o ritmo cai; se treina por ritmo, a intensidade real sobe. <b>Use o teste da fala e aceite correr mais devagar.</b> Não é perda de forma.<br><br><b>Prático:</b> treine antes das 9h ou depois das 18h. Hidrate ao longo do dia, não só antes de correr. Em sessões acima de 60 min no calor, adicione sódio. E lembre que aclimatação leva 10-14 dias de exposição — as primeiras semanas de dezembro vão ser as piores.'],
+ ['Primeira prova de rua','Prática de corrida','Marque uma prova de <b>5 km em dezembro/2026 ou janeiro/2027</b>. Não pelo tempo — pela data.<br><br>Uma inscrição paga com data marcada é uma intenção de implementação com custo afundado, e funciona como âncora quando a motivação oscila. É também a diferença entre "estou tentando correr" e "eu corro" — que, como diz o módulo de identidade, é a mudança que mais prediz manutenção.<br><br>Depois: 10 km em abril/2027, meia maratona por volta de setembro/2027, maratona em 2028.']
+];
+
+const MOD_PERF=[
+ ['VO₂máx — o que esperar','Meta-análises','Destreinados ganham <b>10-20% em 8-12 semanas</b>. Você está na fase mais íngreme da curva que terá na vida.<br><br><b>Ressalva:</b> ~47% da resposta é hereditária, e a variação individual vai de praticamente zero a mais de 1,0 L/min. Se você responder pouco, não é falha de esforço — é biologia. Por isso o app acompanha FC de repouso e Cooper: são medidas, não sensações.'],
+ ['Distribuição polarizada 80/20','ECRs em corredores recreativos','Grupo polarizado (~80% fácil / 20% forte) melhorou o 10K em <b>5,0%</b> contra 3,6% do grupo focado em limiar.<br><br><b>O erro mais comum, quantificado:</b> corredores recreativos passam apenas 50-60% do volume em intensidade fácil; atletas de elite ficam em 80%. O amador treina proporcionalmente <i>mais forte</i> que o profissional — e progride menos.<br><br><b>Aplicação:</b> o teste da fala não é simplificação para leigo. É o controle de intensidade mais confiável que você tem sem lactímetro.'],
+ ['Cronologia das adaptações','Fisiologia do exercício','<b>Dias:</b> volume plasmático expande — hematócrito cai por diluição.<br><b>2 semanas:</b> rede mitocondrial já começou a remodelar (~14% da mudança total).<br><b>4 semanas:</b> capilarização atinge platô — os ganhos vasculares fáceis vêm cedo.<br><b>8 semanas:</b> conteúdo de proteínas da cadeia transportadora de elétrons aumenta.<br><b>Meses:</b> tendão e osso.<br><br><b>A lição:</b> seu sistema cardiorrespiratório vai pedir mais volume antes do tecido conjuntivo estar pronto. Toda lesão de corredor iniciante mora nessa lacuna.'],
+ ['Força em déficit calórico','Meta-análises','Sem treino resistido, parte relevante do que se perde em déficit é massa magra. Com treino de força e 1,6-2,2 g/kg de proteína, a perda passa a ser preferencialmente gordura.<br><br><b>Aplicação:</b> a musculação não é o acessório da corrida neste plano. Ela é o que determina qual será a sua composição corporal ao chegar nos 80 kg — se você vai parecer alguém que emagreceu ou alguém que treina.'],
+ ['FC de repouso e teste de Cooper','Medidas de campo validadas','FC de repouso ao acordar, deitado, é o marcador que se move mais rápido — costuma cair nas primeiras 4-6 semanas.<br><br>Cooper: distância máxima em 12 min. VO₂máx ≈ (distância em metros − 504,9) ÷ 44,73. Só faça a partir da semana 9, quando já existe base para um esforço máximo seguro.'],
+ ['Os três determinantes da performance de endurance','Modelo clássico de fisiologia','Desempenho em corrida de fundo é explicado por três variáveis, e <b>VO₂máx é a menos treinável das três</b>:<br><br><b>1. VO₂máx</b> — o teto. Ganha 10-20% e depois estagna. Fortemente hereditário.<br><b>2. Limiar de lactato</b> — a fração do VO₂máx que você sustenta. <b>Continua melhorando por anos.</b> É o que separa dois corredores com o mesmo VO₂máx.<br><b>3. Economia de corrida</b> — quanto oxigênio você gasta em dado ritmo. Melhora com volume acumulado, técnica e treino de força.<br><br><b>Implicação prática:</b> depois da semana 16 o seu progresso vem quase todo de 2 e 3 — e ambos respondem a <b>volume fácil acumulado ao longo de anos</b>, não a treinos mais duros. É por isso que o roteiro até a maratona é longo.'],
+ ['Treino de força para corredor','Meta-análises','Treino de força pesado melhora <b>economia de corrida</b> e performance em endurance, sem hipertrofia relevante que atrapalhe. O mecanismo é neural e de rigidez músculo-tendínea, não de tamanho.<br><br>Não existe conflito real entre seus dois objetivos: a musculação preserva massa magra no déficit <i>e</i> te faz correr melhor. O "efeito de interferência" entre força e endurance é modesto nos volumes que você treina, e minimizado quando as sessões são em dias separados — que é exatamente como o microciclo está montado.<br><br><b>O que não fazer:</b> força de pernas pesada no dia anterior a uma corrida que importa.'],
+ ['Recuperação: o que tem evidência e o que é ritual','Meta-análises de recuperação','<b>Tem evidência sólida:</b> sono (a intervenção de recuperação mais potente que existe), ingestão calórica e proteica adequadas, e gestão de carga.<br><br><b>Evidência fraca ou nula para performance:</b> gelo pós-treino (e crioterapia pode até <b>atenuar adaptação hipertrófica</b> quando usada rotineiramente após treino de força), alongamento estático pré-treino, a maioria dos "detox".<br><br><b>Evidência modesta:</b> massagem e liberação miofascial para sensação de dor — melhoram como você se sente, não a recuperação funcional. Isso ainda tem valor: sentir-se melhor melhora aderência.<br><br><b>Sua principal alavanca de recuperação é o sono</b>, e é justamente a que o plantão ataca. Por isso o app monitora sono, não banho gelado.'],
+ ['Por que o app mede carga interna e não só quilômetros','Literatura de monitoramento de carga','Dois corredores podem correr os mesmos 30 km na semana com custos internos totalmente diferentes. A carga externa (distância, tempo) não captura o que aquilo custou a <b>você</b>, naquela semana, com aquele sono e aquele plantão.<br><br>Por isso o registro é <b>sRPE × minutos</b> — esforço percebido multiplicado por duração. É a forma mais simples e validada de quantificar carga interna sem equipamento.<br><br>A razão entre a carga dos últimos 7 dias e a média de 4 semanas serve como sinal de salto brusco. A literatura sobre esse índice é <b>contestada</b> — não use como lei. Use como o app usa: um alerta quando você está subindo volume mais rápido do que vem subindo.']
+];
+
+const MOD_CABECA=[
+ ['Intenções de implementação','Meta-análise, 94 testes independentes','Formular <b>"se [situação], então [ação]"</b> antes da hora teve efeito de magnitude média a grande sobre atingir metas: <b>d = 0,65</b> (Gollwitzer & Sheeran, 2006).<br><br>Não é motivação — é pré-decisão. Você tira a escolha do momento em que estará cansado e a coloca num momento em que está lúcido.<br><br><b>Faça agora:</b> escreva as suas. "Se eu sair do plantão às 7h, então durmo e faço a caminhada bônus às 16h." "Se forem 22h e eu não tiver batido a proteína, então tomo whey com leite."'],
+ ['Formação de hábito — 66 dias, e o que isso significa','ECR, n=96, 84 dias','A mediana para atingir 95% de automaticidade foi de <b>66 dias</b>, com faixa individual de 18 a 254 (Lally, 2010). O "21 dias" que circula por aí não tem base nesse dado.<br><br><b>O achado mais útil, e o menos citado:</b> falhar um único dia <b>não quebrou a curva</b> de nenhum participante. A automaticidade continuou subindo.<br><br>É literalmente o desenho do motor adaptativo deste app: uma sessão perdida não te devolve ao início. Uma semana ruim segura ou recua um degrau. O sistema foi feito para absorver a sua escala, não para te punir por ela.'],
+ ['Temptation bundling','Experimento de campo + replicação','Amarrar algo que você <i>quer</i> a algo que você <i>deveria</i> fazer: no experimento original, acesso a audiolivros viciantes apenas na academia aumentou a frequência em <b>51%</b>. Quatro meses depois, quem aprendeu a técnica ainda treinava 10-14% mais.<br><br><b>Faça agora:</b> escolha um podcast, série ou audiolivro que você só se permite durante a corrida ou o deslocamento para a academia. Só ali. A restrição é o mecanismo — sem ela não funciona.'],
+ ['Por que o app não te dá streak nem medalha','Autodeterminação e literatura de recompensa','Recompensa externa para um comportamento tende a deslocar a motivação de intrínseca para extrínseca. O risco é conhecido: quando a recompensa some — ou quando você quebra o streak de 40 dias por causa de um plantão — o comportamento cai junto.<br><br>Por isso este app mostra <b>tendência de peso, FC de repouso, carga de treino e aderência real</b>, e nenhuma medalha. A ideia é que a evidência de que está funcionando venha do seu próprio corpo, que é a fonte que não te abandona quando a semana dá errado.'],
+ ['O erro previsível da semana 6','Literatura de aderência','O padrão é conhecido: a novidade acaba, os resultados desaceleram, e a decisão de treinar volta a exigir esforço consciente — justamente antes de a automaticidade se instalar.<br><br><b>Três defesas, todas com base:</b><br>1. Reduza o atrito de entrada. Roupa separada na noite anterior. A decisão a ser tomada é "sair de casa", não "treinar 40 minutos".<br>2. Use a versão mínima. Três exercícios, duas séries. Conta como feito — e mantém a curva de hábito viva.<br>3. Olhe as medidas objetivas, não o espelho. FC de repouso e cintura estarão se movendo mesmo quando o peso travar.'],
+ ['Os números reais do abandono — e o dado que ninguém conta','Estudos de coorte e revisões de aderência','Vou te dar a estatística ruim primeiro, porque você vai encontrá-la de qualquer jeito: cerca de <b>50% das pessoas que iniciam um programa aeróbio param nos primeiros 6 meses</b>, e a maioria das recaídas acontece nos primeiros 3 meses.<br><br><b>Agora o dado que quase nunca é citado, e que muda tudo:</b> entre os que abandonaram aos 6 meses, <b>45,6% estavam treinando de novo aos 12 meses</b>. E entre os que recaíram, <b>61,4% abandonaram uma única vez</b> em todo o período.<br><br>Ou seja: abandono, na prática, quase nunca é um evento terminal. É um episódio. A literatura descreve um padrão de treinar, parar por um tempo, e <b>voltar</b> — e esse padrão é a norma, não a exceção.<br><br><b>Por que isso importa agora:</b> quase todo mundo que para definitivamente para porque interpretou a primeira interrupção como prova de que "não é capaz". Não é. É o comportamento estatisticamente mais comum entre pessoas que acabam mantendo.'],
+ ['Efeito de violação da abstinência: como uma semana ruim vira seis meses parado','Modelo de prevenção de recaída','O mecanismo é bem descrito e vale tanto para dieta quanto para treino:<br><br>Regra rígida → um desvio → <b>o desvio é interpretado como falha de caráter, não como evento</b> → culpa e vergonha → desengajamento total do objetivo.<br><br>O ponto crítico não é o desvio. É a <b>interpretação</b> dele. "Furei a dieta hoje" leva de volta ao plano. "Eu não consigo manter nada" leva ao abandono — e a diferença entre as duas frases é a única variável que você controla naquele momento.<br><br><b>Esse é o motivo pelo qual este app não tem streak.</b> Contador de dias seguidos constrói exatamente a regra rígida cuja quebra dispara o efeito. Um plantão de 24 h não pode ser capaz de destruir um símbolo de 40 dias de trabalho.'],
+ ['Autocompaixão depois de um deslize — o dado é contraintuitivo','ECRs e estudos experimentais','A intuição diz que se cobrar mantém a disciplina. Os dados dizem o contrário.<br><br>Em estudo experimental, participantes induzidos a uma resposta <b>autocompassiva</b> após um deslize alimentar relataram <b>menos culpa e comeram menos</b> na sequência que o grupo controle. Em estudos de acompanhamento com adultos em perda de peso, maior autocompaixão após um deslize previu <b>maior autoeficácia e maior intenção de continuar</b> — com a culpa mediando a relação.<br><br>Autocrítica após um escorregão é, ao contrário, um dos melhores preditores de compulsão subsequente.<br><br><b>Roteiro concreto para o próximo deslize</b>, e vale escrever: <i>"Isso acontece com quem faz isso a sério. Uma refeição não muda a média de sete dias. A próxima refeição é daqui a quatro horas."</i> Depois registre no app e siga. Não compense, não pule refeição, não dobre o treino.'],
+ ['Identidade em vez de meta','Literatura de identidade e comportamento','Metas terminam. "Perder 10 kg" tem uma data de validade embutida — e, cumprida, remove a razão de continuar. É o mecanismo mais comum de reganho.<br><br>Identidade não termina. A mudança de "estou tentando correr" para "eu sou alguém que corre" é uma das transições mais associadas a manutenção de longo prazo, porque o comportamento deixa de precisar de justificativa.<br><br><b>Como isso se constrói:</b> por acúmulo de pequenas evidências, não por decisão. Cada sessão registrada é um voto. É por isso que a <b>versão mínima</b> importa muito mais do que parece: 15 min ruins mantêm a identidade intacta; zero a corrói.<br><br>Aos 28 anos, R1 de Cardiologia, você tem a chance de que "cardiologista que corre" seja simplesmente quem você é pelos próximos 40 anos, em vez de um projeto que você tentou em 2026.'],
+ ['Crise de ação: o momento exato em que se decide','Literatura de fases da ação','Existe um momento identificável em que a meta deixa de ser automática e volta a ser deliberada — quando você se pega genuinamente considerando desistir, não por um dia, mas de vez. A literatura chama isso de <b>crise de ação</b>, e ela é preditiva de abandono.<br><br>Ela não chega como uma decisão dramática. Chega como uma sequência de pequenas racionalizações razoáveis: a escala está pesada, o joelho está estranho, esse mês foi atípico, eu recomeço em março.<br><br><b>Defesa:</b> decida <b>agora</b>, lúcido, o que fará quando isso acontecer. Escreva no app: <i>"Se eu me pegar pensando em recomeçar mês que vem, então faço a versão mínima hoje e reavalio em 7 dias — nunca no dia em que estou pensando em parar."</i><br><br>Nunca tome a decisão de abandonar num dia ruim. Só num dia bom — e no dia bom você não vai querer.'],
+ ['Projeto o ambiente, não a força de vontade','Literatura de atrito e sinais contextuais','Autocontrole em ambiente hostil é caro e finito. As pessoas que parecem ter mais disciplina em geral construíram ambientes que exigem menos dela.<br><br><b>Reduza atrito do que você quer:</b> roupa de treino separada na noite anterior; tênis na porta; marmitas compradas para a semana inteira no domingo; whey e YoPRO sempre em estoque — falta de estoque é o que mais derruba dieta de residente.<br><br><b>Aumente atrito do que você não quer:</b> não estocar em casa o que você come por impulso. Você não precisa resistir ao que não está na sua cozinha às 23h.<br><br><b>Sinal contextual:</b> hábitos se ancoram em contexto estável. Se possível, mesmo horário e mesmo lugar — é o que acelera a automaticidade dos 66 dias.'],
+ ['Como usar este app sem ele virar mais uma cobrança','Design comportamental','Aplicativo de registro pode ajudar ou virar mais uma fonte de culpa. A diferença está em como você o lê:<br><br><b>Faça:</b> registre o dia ruim. Um dia de 3.000 kcal registrado é informação — o auto-ajuste calórico usa isso e corrige a meta. O mesmo dia não registrado é ruído que vai distorcer a calibração e te dar uma meta errada por semanas.<br><br><b>Não faça:</b> parar de registrar quando a semana der errado. É exatamente aí que o dado vale mais, e é o comportamento que mais antecede abandono definitivo.<br><br><b>Ancore nas medidas objetivas:</b> tendência de peso, cintura, FC de repouso, Cooper. São as quatro coisas que continuam se movendo quando o espelho e a balança parecem parados — e são a evidência de que está funcionando quando a sensação diz o contrário.'],
+ ['O plano de recaída, escrito antes de precisar','Prevenção de recaída','Você vai ter uma semana com dois plantões seguidos, sono ruim e zero treino. Não é hipótese. Escreva a resposta agora:<br><br><b>1. Nomeie como episódio.</b> "Semana perdida", não "voltei à estaca zero". A curva de hábito de Lally não quebrou com falhas isoladas em nenhum participante.<br><b>2. Deixe o motor fazer o trabalho.</b> O app segura ou recua uma semana. Ele foi desenhado exatamente para isto.<br><b>3. Volte pela versão mínima.</b> A primeira sessão de retorno tem que ser fácil ao ponto de ser quase constrangedora. O objetivo dela é existir, não treinar.<br><b>4. Nunca dobre para compensar.</b> É a rota mais curta para lesão, e lesão é o único evento deste plano que realmente te para por meses.<br><b>5. Não espere segunda-feira.</b> Reinícios adiados custam dias e não melhoram nada.']
+];
+
 /* ---------- ESTADO ---------- */
 let S=JSON.parse(localStorage.getItem(KEY)||'null');
 if(!S){
@@ -642,7 +833,6 @@ if(!S){
 /* assinatura do conteúdo: só carimba nova data quando algo realmente mudou,
    senão abrir o app já marcaria este aparelho como "mais recente" que o outro */
 function semVoláteis(){const {fotos,sync,atualizadoEm,...r}=S;return r}
-let assinaturaAnterior=null;
 function save(){
   try{
     const a=JSON.stringify(semVoláteis());
@@ -650,7 +840,12 @@ function save(){
     if(!S.atualizadoEm)S.atualizadoEm=agora();
     assinaturaAnterior=a;
     localStorage.setItem(KEY,JSON.stringify(S));
-  }catch(e){alert('Armazenamento cheio. Apague algumas fotos de progresso em Corpo.')}
+  }catch(e){
+    // distingue cota estourada de erro de programação — a mensagem genérica escondia bugs
+    const cota=e&&(e.name==='QuotaExceededError'||e.code===22||/quota/i.test(e.message||''));
+    alert(cota?'Armazenamento cheio. Apague algumas fotos de progresso na aba Corpo.'
+              :'Erro ao salvar: '+(e&&e.message||e));
+  }
 }
 function novasSessoes(n){
   const w=CORRIDA[n-1];
@@ -1182,6 +1377,113 @@ function renderPlano(){
 }
 function bump(k,inc){S.cargas[k]=(parseFloat(S.cargas[k])||0)+inc;save();renderPlano()}
 
+/* ---------- TUTORIA ---------- */
+function cartaoModulo(m){
+  return `<details><summary>${m[0]}</summary>
+    <div class="pill b" style="margin:8px 0 6px">${m[1]}</div>
+    <div style="font-size:13px;line-height:1.55">${m[2]}</div></details>`;
+}
+function renderTutoria(){
+  const n=S.micro.nivel,a=AULAS[n-1];
+  const semDesdeInicio=Math.floor(dias(S.inicioDeficit||S.pesos[0].d,hoje())/7);
+  $('t-semana').innerHTML=`
+    <div class="card">
+      <h2><span class="pill b">Semana ${n} de 16</span> ${esc(a.t)}</h2>
+      <div style="font-size:14px;line-height:1.6;margin-top:10px">${a.c}</div>
+      <div class="pill w" style="margin-top:12px">Nível de evidência: ${esc(a.e)}</div>
+    </div>
+    <div class="card">
+      <h2>Onde você está</h2>
+      <p class="mini">Semana <b>${n}</b> do plano de corrida · <b>${semDesdeInicio}</b> semana(s) desde o início · ${S.hist.length} microciclo(s) fechado(s).
+      A aula muda sozinha conforme o motor adaptativo avança, repete ou recua a sua semana — então ela sempre corresponde à fisiologia do momento em que você está, e não ao calendário.</p>
+    </div>
+    <div class="card">
+      <h2>Aulas anteriores</h2>
+      ${AULAS.slice(0,Math.max(0,n-1)).map((x,i)=>`<details><summary>Semana ${i+1} — ${esc(x.t)}</summary>
+        <div style="font-size:13px;line-height:1.55;margin-top:8px">${x.c}</div>
+        <div class="pill w" style="margin-top:9px">${esc(x.e)}</div></details>`).join('')||'<p class="mini">Nenhuma ainda — esta é a primeira.</p>'}
+    </div>`;
+
+  // ---- verão e maratona ----
+  const dCarn=dias(hoje(),CARNAVAL), sCarn=Math.floor(dCarn/7);
+  $('t-verao').innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,var(--acc2),#fff)">
+      <h2>Carnaval — terça, 9 de fevereiro de 2027</h2>
+      <div class="g2" style="margin-top:10px">
+        <div class="kpi"><div class="v">${dCarn}</div><div class="l">dias restantes</div></div>
+        <div class="kpi"><div class="v">${sCarn}</div><div class="l">semanas restantes</div></div>
+      </div>
+      <p class="mini" style="margin-top:10px">Verão começa em <b>21/12/26</b> (${dias(hoje(),'2026-12-21')} dias). O bloco de 16 semanas de corrida termina em <b>21/11/26</b> — antes do verão, com folga para consolidar.</p>
+    </div>
+
+    <div class="card">
+      <h2>Onde você chega, por nível de aderência</h2>
+      <p class="mini">Projeção com déficit limitado pelo teto de oxidação de gordura, que cai conforme você emagrece, e com pausa metabólica nas semanas 11-12. Assume 90% da perda vindo de gordura — plausível com 2,2 g/kg de proteína e treino de força.</p>
+      <div style="overflow-x:auto;margin-top:10px"><table><thead><tr><th>Aderência</th><th class="n">Peso</th><th class="n">% gordura</th><th class="n">Perdidos</th></tr></thead><tbody>
+      ${CENARIOS.map(c=>`<tr><td><span class="pill ${c[4]}">${c[0].split(' — ')[0]}</span><br><span class="mini">${c[0].split(' — ')[1]||''}</span></td><td class="n"><b>${c[1]}</b></td><td class="n">${c[2]}</td><td class="n">${c[3]}</td></tr>`).join('')}
+      </tbody></table></div>
+      <div class="note g">Em <b>todos</b> os cenários a massa magra fica entre 66,3 e 66,8 kg, contra 67,5 hoje. Quase tudo que sai é gordura — esse é o retorno do treino de força e da proteína alta, e é a diferença entre parecer alguém que emagreceu e alguém que treina.</div>
+      <div class="note w">Repare no cenário de 50%: metade das semanas perdidas ainda te leva a <b>83,4 kg e 6,6 kg a menos</b>. Meia aderência não é fracasso — é a maior parte do resultado. Guarde isso para a semana em que você cair para 50%.</div>
+    </div>
+
+    <div class="card">
+      <h2>Marcos até lá</h2>
+      ${MARCOS_VERAO.map(m=>`<div class="sess" style="padding:12px;margin-bottom:8px">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <span class="pill b">${m[0]}</span><span class="pill w">${m[1]}</span>
+          <span class="t" style="font-size:14px">${m[2]}</span></div>
+        <div style="font-size:13px;color:var(--mut);margin-top:6px;line-height:1.5">${m[3]}</div></div>`).join('')}
+      <p class="mini"><b>Sobre "corpo bom":</b> aos ~15,5% de gordura você estará visivelmente em forma — abdômen plano de pé, ombros e braços com contorno, definição de oblíquo. O que você <b>não</b> terá é abdômen com gomos: isso exige 10-12%, o que significa mais 5-8 semanas de déficit além do Carnaval. Dá para buscar depois, mas atravessar o verão inteiro em déficit agressivo é o cenário com mais risco de reganho.</p>
+    </div>
+
+    <div class="card">
+      <h2>Quando você corre uma maratona</h2>
+      <div class="note"><b>Resposta curta: março ou abril de 2028</b> — cerca de 20 meses a partir de hoje. A Maratona de São Paulo costuma acontecer em abril, o que faz de <b>abril/2028</b> o alvo natural.</div>
+      <div style="overflow-x:auto"><table><thead><tr><th>Período</th><th class="n">Dur.</th><th>Fase</th></tr></thead><tbody>
+      ${ROTEIRO.map((r,i)=>`<tr style="${i===0?'background:var(--acc2)':''}"><td><b>${r[0]}</b></td><td class="n">${r[1]}</td><td>${r[2]}${r[3]?'<br><span class="mini">'+r[3]+'</span>':''}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="mini" style="margin-top:10px"><b>Por que não antes.</b> Existem planos de "sedentário à maratona em 24 semanas" e eles são vendidos honestamente — mas corredores novatos têm <b>2,5 a 5× mais risco de lesão</b> que experientes no mesmo volume semanal, porque a remodelação de osso e tendão fica semanas a meses atrás da adaptação cardiovascular. A recomendação convencional para quem sai do sedentarismo é de 6 a 12 meses só até a meia maratona.<br><br>Você <i>poderia</i> cruzar uma linha de chegada de 42 km no fim de 2027. A pergunta é se chegaria inteiro e se voltaria a correr depois. Com plantão e escala imprevisível, o roteiro acima é o que eu defenderia num congresso.<br><br><b>As fases de consolidação são a parte que quase todo mundo pula</b> — semanas em que o volume não sobe. É exatamente nelas que o tecido conjuntivo alcança o pulmão, e é a ausência delas que explica a maioria das lesões de quem tenta apressar.</p>
+    </div>
+
+    <div class="card">
+      <h2>Metas intermediárias — inscreva-se com antecedência</h2>
+      <ul>
+        <li><b>5 km</b> — dezembro/2026 ou janeiro/2027. Não pelo tempo: pela data marcada.</li>
+        <li><b>10 km</b> — abril/2027.</li>
+        <li><b>Meia maratona (21 km)</b> — setembro/2027.</li>
+        <li><b>Maratona (42 km)</b> — março ou abril/2028.</li>
+      </ul>
+      <p class="mini">Inscrição paga com data marcada funciona como intenção de implementação com custo afundado. É uma das poucas formas de comprar aderência com dinheiro.</p>
+    </div>`;
+
+  $('t-linha').innerHTML=`<div class="card"><h2>O que você vai perceber, e quando</h2>
+    <p class="mini">Só entra aqui o que tem evidência atrás. Onde a evidência não se aplica ao seu caso, está dito com todas as letras.</p></div>`+
+    LINHA_TEMPO.map(f=>`<div class="card">
+      <h2><span class="pill ${f.cor}">${f.q}</span></h2>
+      ${f.its.map(i=>`<div class="sess" style="padding:12px;margin-bottom:8px">
+        <div class="t" style="font-size:14px">${i[0]}</div>
+        <div style="font-size:13px;color:var(--mut);margin:5px 0 7px;line-height:1.5">${i[1]}</div>
+        <div class="pill w">${i[2]}</div></div>`).join('')}
+    </div>`).join('')+
+    `<div class="card"><h2>Detalhe por aspecto da vida</h2>
+     <p class="mini">O mesmo conteúdo, organizado por onde você vai sentir.</p>
+     ${DOMINIOS.map(d=>`<details><summary>${d[1]} ${d[0]}</summary>
+       ${d[2].map(i=>`<div style="margin-top:9px"><div class="pill b">${i[0]}</div>
+         <div style="font-size:13px;line-height:1.55;margin-top:5px">${i[1]}</div></div>`).join('')}
+     </details>`).join('')}</div>`+
+    `<div class="card"><h2>Uma ressalva que vale por todas</h2>
+     <p class="mini">Tamanho de efeito de meta-análise é média de população, não previsão individual. Metade das pessoas fica abaixo da média — e ~47% da resposta aeróbia é hereditária. Se algum item desta lista não acontecer com você no prazo indicado, isso não significa que o plano falhou. Significa que você é uma pessoa, não um intervalo de confiança. Os marcadores que valem para <b>você</b> são os que o app mede: tendência de peso, cintura, FC de repouso, Cooper e aderência.</p></div>`;
+
+  $('t-nutri').innerHTML=`<div class="card"><h2>Nutrição — o que a evidência sustenta</h2>
+    <p class="mini">${MOD_NUTRI.length} módulos. Toque para abrir.</p></div><div class="card">${MOD_NUTRI.map(cartaoModulo).join('')}</div>`;
+  $('t-perf').innerHTML=`<div class="card"><h2>Performance e condicionamento</h2>
+    <p class="mini">${MOD_PERF.length} módulos. Toque para abrir.</p></div><div class="card">${MOD_PERF.map(cartaoModulo).join('')}</div>`;
+  $('t-corrida').innerHTML=`<div class="card"><h2>Corrida — técnica, carga e prática</h2>
+    <p class="mini">${MOD_CORRIDA.length} módulos. O que um corredor experiente gostaria de ter sabido no primeiro ano.</p></div><div class="card">${MOD_CORRIDA.map(cartaoModulo).join('')}</div>`;
+  $('t-cabeca').innerHTML=`<div class="card"><h2>Aderência: a variável que decide tudo</h2>
+    <p class="mini">${MOD_CABECA.length} módulos. Nenhuma planilha compensa esta parte — comece pelos três últimos.</p></div><div class="card">${MOD_CABECA.map(cartaoModulo).join('')}</div>`;
+}
+
 /* ---------- CONFIG ---------- */
 function salvarConf(){
   S.perfil={idade:+$('c-idade').value,alt:+$('c-alt').value,peso:+$('c-peso').value,
@@ -1312,12 +1614,18 @@ function importar(inp){
 }
 
 /* ---------- RENDER / NAV ---------- */
-function render(){autoFechar();renderHoje();renderPlano();renderComida();renderCorpo();renderConf();renderSync();save()}
+function render(){autoFechar();renderHoje();renderPlano();renderComida();renderCorpo();renderConf();renderSync();renderTutoria();save()}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
-  ['hoje','plano','comida','corpo','mais'].forEach(t=>$('p-'+t).classList.toggle('hide',t!==b.dataset.p));
+  ['hoje','plano','comida','corpo','tutoria','mais'].forEach(t=>$('p-'+t).classList.toggle('hide',t!==b.dataset.p));
   window.scrollTo(0,0);
   if(b.dataset.p==='corpo')renderCorpo();
+  if(b.dataset.p==='tutoria')renderTutoria();
+});
+document.querySelectorAll('#sub-tut .chip').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#sub-tut .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  ['semana','verao','linha','nutri','perf','corrida','cabeca'].forEach(t=>$('t-'+t).classList.toggle('hide',t!==b.dataset.s));
+  window.scrollTo(0,0);
 });
 document.querySelectorAll('#sub-plano .chip').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#sub-plano .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');
